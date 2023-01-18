@@ -43,7 +43,7 @@ namespace Grandmark
                         throw new Exception("User Logon Failed");
                     }
                     vSqlDataReader.Read();
-                    aLogonToken.Entity = Convert.ToInt64(vSqlDataReader["Ent_Key"]);
+                    aLogonToken.Entity = Convert.ToInt32(vSqlDataReader["Ent_Key"]);
                     aLogonToken.Token = Convert.ToString(vSqlDataReader["Usr_Token"]);
                     aLogonToken.Name = Convert.ToString(vSqlDataReader["Usr_Name"]);
                     aLogonToken.Surname = Convert.ToString(vSqlDataReader["Usr_Surname"]);
