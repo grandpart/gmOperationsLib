@@ -15,6 +15,7 @@ namespace Grandmark
     {
         #region Fields
 
+        private int _entKey;
         private int _usrKey;
         private bool _usrAdmin;
 
@@ -28,6 +29,11 @@ namespace Grandmark
         /// <value>
         ///   The <see cref="Subscriber"/> key.
         /// </value
+        public int EntKey
+        {
+            get { return _entKey; }
+            set { _entKey = value; }
+        }
         public int UsrKey
         {
             get { return _usrKey; }
@@ -53,8 +59,9 @@ namespace Grandmark
         /// </summary>
         /// <param name="aUsrKey">A User key.</param>
         /// <param name="aUsrAdmin"></param>
-        public UserKey( int aClnKey, int aUsrKey, bool aUsrAdmin)
+        public UserKey( int aEntKey, int aUsrKey, bool aUsrAdmin)
         {
+            _entKey = aEntKey;
             _usrKey = aUsrKey;
             _usrAdmin = aUsrAdmin;
         }
@@ -76,7 +83,7 @@ namespace Grandmark
             /// <returns>True if the composite keys are equal, else false.</returns>
             public bool Equals(UserKey aUserKey1, UserKey aUserKey2)
             {
-                return aUserKey1._usrKey == aUserKey2._usrKey;
+                return (aUserKey1._entKey == aUserKey2._entKey) && (aUserKey1._usrKey == aUserKey2._usrKey);
             }
 
             /// <summary>
@@ -102,10 +109,11 @@ namespace Grandmark
         /// <param name="aSource">A source objcct.</param>
         public override void AssignFromSource(object aSource)
         {
-            if (!(aSource is UserKey))
+            if (aSource is not UserKey)
             {
                 throw new ArgumentException("Invalid assignment source", "UserKey");
             }
+            _entKey = ((UserKey)aSource)._entKey;
             _usrKey = ((UserKey)aSource)._usrKey;
             _usrAdmin = ((UserKey)aSource)._usrAdmin;
         }

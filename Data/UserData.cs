@@ -222,12 +222,12 @@ namespace Grandmark
         {
             var vStringBuilder = new StringBuilder();
             vStringBuilder.AppendLine("insert into Usr_User");
-            vStringBuilder.AppendLine("       (Usr_ParentKey, ORG_Key, QLF_Key, Usr_UserID, Usr_Password,");
+            vStringBuilder.AppendLine("       (Usr_ParentKey, Org_Key, QLF_Key, Usr_UserID, Usr_Password,");
             vStringBuilder.AppendLine("        Usr_Admin, Usr_AutoAuthorize, Usr_CanAuthorize, Usr_Name, Usr_Surname, Usr_Email, Usr_Rate, Usr_Cost,");
             vStringBuilder.AppendLine("        Usr_Identifier, Usr_Mobile, Usr_Phone, Usr_Extension, Usr_Fax, Usr_Status, Usr_StatusDate)");
             vStringBuilder.AppendLine("output inserted.Usr_Key");
             vStringBuilder.AppendLine("values");
-            vStringBuilder.AppendLine("       (@USRParentUSRKey, @ORGKey, @QLFKey, @USRUserID, @USRPassword,");
+            vStringBuilder.AppendLine("       (@USRParentUSRKey, @OrgKey, @QLFKey, @USRUserID, @USRPassword,");
             vStringBuilder.AppendLine("        @USRAdmin, @USRAutoAuthorize, @USRCanAuthorize, @USRName, @USRSurname, @USREmail, @USRRate, @USRCost,");
             vStringBuilder.AppendLine("        @USRIdentifier, @USRMobile, @USRPhone, @USRExtension, @USRFax, @USRStatus, GetDate())");
 
@@ -296,7 +296,7 @@ namespace Grandmark
                 vStringBuilder.AppendLine("       Usr_Extension = @USRExtension,");
                 vStringBuilder.AppendLine("       Usr_Fax = @USRFax,");
                 vStringBuilder.AppendLine("       QLF_Key = @QLFKey,");
-                vStringBuilder.AppendLine("       ORG_Key = @ORGKey");
+                vStringBuilder.AppendLine("       Org_Key = @OrgKey");
                 vStringBuilder.AppendLine("where  Usr_Key = @USRKey");
 
                 vSqlCommand.Parameters.AddWithValue("@USRKey", aUser.UsrKey);

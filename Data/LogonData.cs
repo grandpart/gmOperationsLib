@@ -28,7 +28,7 @@ namespace Grandmark
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("update SysUser");
                 vStringBuilder.AppendLine("set Usr_Token = NEWID()");
-                vStringBuilder.AppendLine("output inserted.Ent_Key, inserted.Usr_Token, inserted.Usr_Name, inserted.Usr_Surname, inserted.Usr_Admin");
+                vStringBuilder.AppendLine("output inserted.Usr_Token, inserted.Usr_Name, inserted.Usr_Surname, inserted.Usr_Admin");
                 vStringBuilder.AppendLine("from SysUser usr ");
                 vStringBuilder.AppendLine("where Usr_UserID = @UsrUserID");
                 vStringBuilder.AppendLine("and   Usr_Password = @UsrToken");
@@ -43,7 +43,6 @@ namespace Grandmark
                         throw new Exception("User Logon Failed");
                     }
                     vSqlDataReader.Read();
-                    aLogonToken.Entity = Convert.ToInt32(vSqlDataReader["Ent_Key"]);
                     aLogonToken.Token = Convert.ToString(vSqlDataReader["Usr_Token"]);
                     aLogonToken.Name = Convert.ToString(vSqlDataReader["Usr_Name"]);
                     aLogonToken.Surname = Convert.ToString(vSqlDataReader["Usr_Surname"]);
@@ -77,7 +76,7 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = new StringBuilder();
-                vStringBuilder.AppendLine("select usr.Usr_Key, usr.Usr_Admin");
+                vStringBuilder.AppendLine("select usr.Ent_Key, usr.Usr_Key, usr.Usr_Admin");
                 vStringBuilder.AppendLine("from SysUser usr");
                 vStringBuilder.AppendLine("where usr.Usr_UserID = @UsrUserID");
                 vStringBuilder.AppendLine("and   usr.Usr_Token = @UsrToken");
@@ -92,6 +91,7 @@ namespace Grandmark
                         throw new TransactionStatusException(TransactionResult.Hijack, "Your UserID has either expired, or it has been hijacked. Please reconnect.");
                     }
                     vSqlDataReader.Read();
+                    aUserKey.EntKey = Convert.ToInt32(vSqlDataReader["Ent_Key"]);
                     aUserKey.UsrKey = Convert.ToInt32(vSqlDataReader["Usr_Key"]);
                     aUserKey.UsrAdmin = Convert.ToString(vSqlDataReader["Usr_Admin"]) == "Y";
                     vSqlDataReader.Close();
