@@ -24,7 +24,7 @@ namespace Grandmark
             var vStringBuilder = new StringBuilder();
             vStringBuilder.AppendLine("select org.Ent_Key, org.Org_Key, org.Ent_KeyParent, org.Org_KeyParent,");
             vStringBuilder.AppendLine("       org.Org_Name, isnull(own.Org_Name, '-- none --') as Org_NameParent");
-            vStringBuilder.AppendLine("from Org_Organization org left outer join Org_Organization own");
+            vStringBuilder.AppendLine("from Organization org left outer join Organization own");
             vStringBuilder.AppendLine("                          on  org.Ent_KeyParent = own.Ent_Key");
             vStringBuilder.AppendLine("                          and org.Org_KeyParent = own.Org_Key");
             return vStringBuilder;
