@@ -1,6 +1,7 @@
 ﻿using Grandmark;
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using Zephry;
 
@@ -55,7 +56,12 @@ namespace gmOperationsLib.Classes
         #region AssignmentFromSource
         public override void AssignFromSource(object aSource)
         {
-            throw new NotImplementedException();
+            if (!(aSource is TicketPriorityKey))
+            {
+                throw new ArgumentException("Invalid assignment source", "TicketPriorityKey");
+            }
+            _entkey = ((TicketPriorityKey)aSource)._entkey;
+            _tprkey = ((TicketPriorityKey)aSource)._tprkey;
         }
         #endregion
     }
