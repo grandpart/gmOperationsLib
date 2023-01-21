@@ -5,10 +5,14 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using Zephry;
 
-namespace gmOperationsLib.Classes
+namespace Grandmark
 {
+    /// <summary>
+    /// TicketPriorityKey, is the class keeping only the Primary key of the table TicketPriority
+    /// </summary>
     public class TicketPriorityKey : Zephob
     {
+
         #region Fields
         private int _entkey;
         private int _tprkey;
@@ -16,6 +20,9 @@ namespace gmOperationsLib.Classes
 
 
         #region Properties
+        /// <summary>
+        /// The [JsonProperty fields will also be the fields listed on your body when submitting the request]
+        /// </summary>
 
         [JsonProperty("entkey")]
         public int EntKey { get => _entkey; set { _entkey = value; } }
