@@ -23,7 +23,7 @@ namespace Grandmark
         {
             var vStringBuilder = new StringBuilder();
             vStringBuilder.AppendLine("select Ent_Key, Org_Key, Ent_KeyParent, Org_KeyParent, Org_Name");
-            vStringBuilder.AppendLine("from   Org_Organization");
+            vStringBuilder.AppendLine("from   Organization");
             return vStringBuilder;
         }
 
@@ -42,7 +42,7 @@ namespace Grandmark
             aOrganizationProxy.OrgKey = Convert.ToInt32(aSqlDataReader["Org_Key"]);
             aOrganizationProxy.SubKeyParent = aSqlDataReader["Ent_KeyParent"] as int?;
             aOrganizationProxy.OrgKeyParent = aSqlDataReader["Org_KeyParent"] as int?;
-            aOrganizationProxy.OrgName = Convert.ToString(aSqlDataReader["Org_Name"]);
+            aOrganizationProxy.OrgName = Convert.ToString(aSqlDataReader["Org_Name"]) ?? string.Empty;
         }
         #endregion
 
