@@ -99,6 +99,54 @@ namespace Grandmark
 
         #endregion
 
+        #region Load List
+        /// <summary>
+        /// Load a single record from database
+        /// </summary>
+        /// <param name="aConnection"></param>
+        /// <param name="aUserKey"></param>
+        /// <param name="aTicketPriority"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void LoadList(Connection aConnection, UserKey aUserKey,  List<TicketPriority> aTicketPriorityCollection)
+        {
+            //if (aTicketPriority == null)
+            //{
+            //    throw new ArgumentNullException("aTicketPriority");
+            //}
+
+            using (var vSqlCommand = new SqlCommand()
+            {
+                CommandType = CommandType.Text,
+                Connection = new SqlConnection(aConnection.SqlConnectionString)
+            })
+            {
+                var vStrignBuilder = BuildSql();
+
+                //We want the list of priorities for the entity the user is linked to
+                vStrignBuilder.AppendLine("WHERE tp.Ent_Key = @EntKey");
+                vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
+
+                vSqlCommand.CommandText = vStrignBuilder.ToString();
+                vSqlCommand.Connection.Open();
+
+                using (SqlDataReader vSqlDataReader = vSqlCommand.ExecuteReader())
+                {
+                    while (vSqlDataReader.Read())
+                    {
+                        var vTicketPriority = new TicketPriority();
+                        DataToObject(vTicketPriority, vSqlDataReader);
+                        aTicketPriorityCollection.Add(vTicketPriority);
+
+                    }
+                    
+                    vSqlDataReader.Close();
+                }
+                vSqlCommand.Connection.Close();
+            }
+        }
+
+        #endregion
+
         #region Insert with a Connection
         public static void Insert(Connection aConnection, UserKey aUserKey, TicketPriority aTicketPriority)
         {
