@@ -22,19 +22,19 @@ namespace Grandmark
         #endregion
 
         #region Load List
-        public static void LoadList(Connection aConnection, UserKey aUserKey, List<TicketPriority> aTicketPriorityList)
+        public static void LoadList(Connection aConnection, UserKey aUserKey, TicketPriorityCollection aTicketPriorityCollection)
         {
-            if (aTicketPriorityList == null)
+            if (aTicketPriorityCollection == null)
             {
-                throw new ArgumentNullException("aTicketPriority");
+                throw new ArgumentNullException("aTicketPriorityCollection");
             }
 
-            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
+            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriorityCollection"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Access, "TicketPriorityCollection");
             }
 
-            TicketPriorityData.LoadList(aConnection, aUserKey, aTicketPriorityList);
+            TicketPriorityCollectionData.Load(aConnection, aUserKey, aTicketPriorityCollection);
         }
         #endregion
 
