@@ -12,10 +12,10 @@ namespace Grandmark
     {
         #region Fields
 
-        private string _orgName;
+        private string _orgName = string.Empty;
         private int? _entKeyParent;
         private int? _orgKeyParent;
-        private string _orgNameParent;
+        private string _orgNameParent = string.Empty;
 
         #endregion
         #region Properties

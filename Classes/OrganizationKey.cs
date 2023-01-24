@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Zephry;
 
 namespace Grandmark
@@ -11,9 +11,9 @@ namespace Grandmark
         #endregion
 
         #region Properties
-        [JsonPropertyName("entkey")]
+        [JsonProperty("entkey")]
         public int EntKey { get => _entKey; set { _entKey = value; } }
-        [JsonPropertyName("orgkey")]
+        [JsonProperty("orgkey")]
         public int OrgKey { get => _orgKey; set { _orgKey = value; }}
         #endregion
 

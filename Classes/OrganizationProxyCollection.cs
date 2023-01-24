@@ -20,7 +20,7 @@ namespace Grandmark
         #region Methods
         public override void AssignFromSource(object aSource)
         {
-            if (!(aSource is OrganizationProxyCollection))
+            if (aSource is not OrganizationProxyCollection)
             {
                 throw new ArgumentException("aOrganizationProxyCollection");
             }

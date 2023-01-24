@@ -40,7 +40,7 @@ namespace Grandmark
         {
             aOrganizationProxy.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
             aOrganizationProxy.OrgKey = Convert.ToInt32(aSqlDataReader["Org_Key"]);
-            aOrganizationProxy.SubKeyParent = aSqlDataReader["Ent_KeyParent"] as int?;
+            aOrganizationProxy.EntKeyParent = aSqlDataReader["Ent_KeyParent"] as int?;
             aOrganizationProxy.OrgKeyParent = aSqlDataReader["Org_KeyParent"] as int?;
             aOrganizationProxy.OrgName = Convert.ToString(aSqlDataReader["Org_Name"]) ?? string.Empty;
         }

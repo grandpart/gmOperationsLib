@@ -28,7 +28,7 @@ namespace Grandmark
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("update SysUser");
                 vStringBuilder.AppendLine("set Usr_Token = NEWID()");
-                vStringBuilder.AppendLine("output inserted.Usr_Token, inserted.Usr_Name, inserted.Usr_Surname, inserted.Usr_Admin");
+                vStringBuilder.AppendLine("output inserted.Usr_Token, inserted.Usr_Admin");
                 vStringBuilder.AppendLine("from SysUser usr ");
                 vStringBuilder.AppendLine("where Usr_UserID = @UsrUserID");
                 vStringBuilder.AppendLine("and   Usr_Password = @UsrToken");
@@ -44,8 +44,6 @@ namespace Grandmark
                     }
                     vSqlDataReader.Read();
                     aLogonToken.Token = Convert.ToString(vSqlDataReader["Usr_Token"]);
-                    aLogonToken.Name = Convert.ToString(vSqlDataReader["Usr_Name"]);
-                    aLogonToken.Surname = Convert.ToString(vSqlDataReader["Usr_Surname"]);
                     aLogonToken.Admin = Convert.ToString(vSqlDataReader["Usr_Admin"]) == "Y";
 
                     // close reader

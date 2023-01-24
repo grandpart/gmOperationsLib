@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Zephry;
+﻿using Newtonsoft.Json;
 
 namespace Grandmark
 {
@@ -11,36 +8,21 @@ namespace Grandmark
     public class OrganizationProxy : OrganizationKey
     {
         #region Fields
-        private int? _subKeyParent;
+        private int? _entKeyParent;
         private int? _orgKeyParent;
         private string _orgName = string.Empty;
         private List<OrganizationProxy> _organizationProxyList = new();
         #endregion
 
         #region Properties
-        public int? SubKeyParent
-        {
-            get { return _subKeyParent; }
-            set { _subKeyParent = value; }
-        }
-
-        public int? OrgKeyParent
-        {
-            get { return _orgKeyParent; }
-            set { _orgKeyParent = value; }
-        }
-
-        public string OrgName
-        {
-            get { return _orgName; }
-            set { _orgName = value; }
-        }
-
-        public List<OrganizationProxy> OrganizationProxyList
-        {
-            get { return _organizationProxyList; }
-            set { _organizationProxyList = value; }
-        }
+        [JsonProperty("entparent")]
+        public int? EntKeyParent { get => _entKeyParent; set => _entKeyParent = value; }
+        [JsonProperty("orgparent")]
+        public int? OrgKeyParent { get => _orgKeyParent; set => _orgKeyParent = value; }
+        [JsonProperty("orgname")]
+        public string OrgName { get => _orgName; set => _orgName = value; }
+        [JsonProperty("list")]
+        public List<OrganizationProxy> OrganizationProxyList { get => _organizationProxyList; set => _organizationProxyList = value; }
         #endregion
 
         #region AssignFromSource
@@ -57,7 +39,7 @@ namespace Grandmark
             }
 
             base.AssignFromSource(aSource);
-            _subKeyParent = ((OrganizationProxy)aSource)._subKeyParent;
+            _entKeyParent = ((OrganizationProxy)aSource)._entKeyParent;
             _orgKeyParent = ((OrganizationProxy)aSource)._orgKeyParent;
             _orgName = ((OrganizationProxy)aSource)._orgName;
             ((OrganizationProxy)aSource)._organizationProxyList.Clear();
