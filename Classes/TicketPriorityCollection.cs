@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Zephry;
 
 namespace Grandmark
@@ -11,7 +10,6 @@ namespace Grandmark
         #endregion
 
         #region  Properties
-
         [JsonProperty("list")]
         public List<TicketPriority> TicketPriorityList { get => _ticketPriorityList; set => _ticketPriorityList = value; }
         #endregion

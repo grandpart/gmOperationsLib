@@ -1,20 +1,18 @@
-﻿using Microsoft.VisualBasic;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Zephry;
 
 namespace Grandmark
 {
-    public class TicketPriorityData
+    public class WarehouseData
     {
-
         #region BuildSQL
         private static StringBuilder BuildSql()
         {
             var vStrignBuilder = new StringBuilder();
-            vStrignBuilder.AppendLine("SELECT tp.Ent_Key, tp.Tpr_Key, tp.Tpr_Name, tp.Tpr_Priority, tp.Tpr_Class");
-            vStrignBuilder.AppendLine("FROM TicketPriority tp");
+            vStrignBuilder.AppendLine("SELECT w.Ent_Key, w.Whs_Key, w.Whs_Name, w.Whs_Code, w.Whs_IsTradingWarehouse ");
+            vStrignBuilder.AppendLine("FROM Warehouse w");
             return vStrignBuilder;
         }
         #endregion
@@ -23,15 +21,15 @@ namespace Grandmark
         /// <summary>
         /// Populate object with values read from database
         /// </summary>
-        /// <param name="aTicketPriority"></param>
+        /// <param name="aWarehouse"></param>
         /// <param name="aSqlDataReader"></param>
-        private static void DataToObject(TicketPriority aTicketPriority, SqlDataReader aSqlDataReader)
+        private static void DataToObject(Warehouse aWarehouse, SqlDataReader aSqlDataReader)
         {
-            aTicketPriority.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
-            aTicketPriority.TprKey = Convert.ToInt32(aSqlDataReader["Tpr_Key"]);
-            aTicketPriority.TprName = Convert.ToString(aSqlDataReader["Tpr_Name"]);
-            aTicketPriority.TprPriority = Convert.ToInt32(aSqlDataReader["Tpr_Priority"]);
-            aTicketPriority.TprClass = Convert.ToString(aSqlDataReader["Tpr_Class"]);
+            aWarehouse.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
+            aWarehouse.WhsKey = Convert.ToInt32(aSqlDataReader["Whs_key"]);
+            aWarehouse.WhsName = Convert.ToString(aSqlDataReader["Whs_Name"]);
+            aWarehouse.WhsCode = Convert.ToString(aSqlDataReader["Whs_Code"]);
+            aWarehouse.WhsIsTradingWarehouse = Convert.ToBoolean(aSqlDataReader["Whs_IsTradingWarehouse"]);
         }
         #endregion
 
@@ -41,13 +39,13 @@ namespace Grandmark
         /// </summary>
         /// <param name="aSqlCommand"></param>
         /// <param name="aUserKey"></param>
-        /// <param name="aTicketPriority"></param>
-        private static void ObjectToData(SqlCommand aSqlCommand, UserKey aUserKey, TicketPriority aTicketPriority) 
+        /// <param name="aWarehouse"></param>
+        private static void ObjectToData(SqlCommand aSqlCommand, UserKey aUserKey, Warehouse aWarehouse)
         {
             aSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-            aSqlCommand.Parameters.AddWithValue("@TprName", aTicketPriority.TprName);
-            aSqlCommand.Parameters.AddWithValue("@TprPriority", aTicketPriority.TprPriority);
-            aSqlCommand.Parameters.AddWithValue("@TprClass", aTicketPriority.TprClass);
+            aSqlCommand.Parameters.AddWithValue("@WhsName", aWarehouse.WhsName);
+            aSqlCommand.Parameters.AddWithValue("@WhsCode", aWarehouse.WhsCode);
+            aSqlCommand.Parameters.AddWithValue("@WhsIsTradingWarehouse", aWarehouse.WhsIsTradingWarehouse);
         }
         #endregion
 
@@ -57,13 +55,13 @@ namespace Grandmark
         /// </summary>
         /// <param name="aConnection"></param>
         /// <param name="aUserKey"></param>
-        /// <param name="aTicketPriority"></param>
+        /// <param name="aWarehouse"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Load(Connection aConnection, UserKey aUserKey, TicketPriority aTicketPriority)
+        public static void Load(Connection aConnection, UserKey aUserKey, Warehouse aWarehouse)
         {
-            if (aTicketPriority == null)
+            if (aWarehouse == null)
             {
-                throw new ArgumentNullException("aTicketPriority");
+                throw new ArgumentNullException("aWarehouse");
             }
 
             using (var vSqlCommand = new SqlCommand()
@@ -73,23 +71,23 @@ namespace Grandmark
             })
             {
                 var vStrignBuilder = BuildSql();
-                vStrignBuilder.AppendLine("WHERE tp.Ent_Key = @EntKey");
-                vStrignBuilder.AppendLine("AND   tp.Tpr_Key = @TprKey");
+                vStrignBuilder.AppendLine("WHERE w.Ent_Key = @EntKey");
+                vStrignBuilder.AppendLine("AND   w.Whs_Key = @WhsKey");
                 vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-                vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriority.TprKey);
+                vSqlCommand.Parameters.AddWithValue("@WhsKey", aWarehouse.WhsKey);
                 vSqlCommand.CommandText = vStrignBuilder.ToString();
                 vSqlCommand.Connection.Open();
-                using(var vSqlDataReader = vSqlCommand.ExecuteReader())
+                using (var vSqlDataReader = vSqlCommand.ExecuteReader())
                 {
                     if (vSqlDataReader.HasRows)
                     {
                         vSqlDataReader.Read();
-                        DataToObject(aTicketPriority, vSqlDataReader);
+                        DataToObject(aWarehouse, vSqlDataReader);
                     }
                     else
                     {
                         //Need to make sure on what to pass back when no record is returned
-                        aTicketPriority = null;
+                        aWarehouse = null;
                     }
                     vSqlDataReader.Close();
                 }
@@ -100,11 +98,11 @@ namespace Grandmark
         #endregion
 
         #region Insert with a Connection
-        public static void Insert(Connection aConnection, UserKey aUserKey, TicketPriority aTicketPriority)
+        public static void Insert(Connection aConnection, UserKey aUserKey, Warehouse aWarehouse)
         {
-            if (aTicketPriority == null)
+            if (aWarehouse == null)
             {
-                throw new ArgumentNullException(nameof(aTicketPriority));
+                throw new ArgumentNullException(nameof(aWarehouse));
             }
             using (var vSqlCommand = new SqlCommand()
             {
@@ -113,44 +111,44 @@ namespace Grandmark
             })
             {
                 vSqlCommand.Connection.Open();
-                InsertCommon(vSqlCommand, aUserKey, aTicketPriority);
+                InsertCommon(vSqlCommand, aUserKey, aWarehouse);
                 vSqlCommand.Connection.Close();
             }
         }
         #endregion
 
         #region Insert with an SqlCommand
-        public static void Insert(SqlCommand aSqlCommand, UserKey aUserKey, TicketPriority aTicketPriority)
+        public static void Insert(SqlCommand aSqlCommand, UserKey aUserKey, Warehouse aWarehouse)
         {
-            if (aTicketPriority == null)
+            if (aWarehouse == null)
             {
-                throw new ArgumentNullException(nameof(aTicketPriority));
+                throw new ArgumentNullException(nameof(aWarehouse));
             }
-            InsertCommon(aSqlCommand, aUserKey, aTicketPriority);
+            InsertCommon(aSqlCommand, aUserKey, aWarehouse);
         }
         #endregion
 
         #region Insert Common
-        private static void InsertCommon(SqlCommand aSqlCommand, UserKey aUserKey, TicketPriority aTicketPriority)
+        private static void InsertCommon(SqlCommand aSqlCommand, UserKey aUserKey, Warehouse aWarehouse)
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("INSERT INTO TicketPriority");
-            vStringBuilder.AppendLine("       (Ent_Key, Tpr_Name, Tpr_Priority, Tpr_Class)");
-            vStringBuilder.AppendLine("output inserted.Tpr_Key");
+            vStringBuilder.AppendLine("INSERT INTO Warehouse");
+            vStringBuilder.AppendLine("       (Ent_Key, Whs_Name, Whs_Code, Whs_IsTradingWarehouse)");
+            vStringBuilder.AppendLine("output inserted.Whs_Key");
             vStringBuilder.AppendLine("values");
-            vStringBuilder.AppendLine("       (@EntKey, @TprName, @TprPriority, @TprClass)");
-            ObjectToData(aSqlCommand, aUserKey, aTicketPriority);
+            vStringBuilder.AppendLine("       (@EntKey, @WhsName, @WhsCode, @WhsIsTradingWarehouse)");
+            ObjectToData(aSqlCommand, aUserKey, aWarehouse);
             aSqlCommand.CommandText = vStringBuilder.ToString();
-            aTicketPriority.TprKey = Convert.ToInt32(aSqlCommand.ExecuteScalar());
+            aWarehouse.WhsKey = Convert.ToInt32(aSqlCommand.ExecuteScalar());
         }
         #endregion
 
         #region Update
-        public static void Update(Connection aConnection, UserKey aUserKey, TicketPriority aTicketPriority)
+        public static void Update(Connection aConnection, UserKey aUserKey, Warehouse aWarehouse)
         {
-            if (aTicketPriority == null)
+            if (aWarehouse == null)
             {
-                throw new ArgumentNullException("aTicketPriority");
+                throw new ArgumentNullException("aWarehouse");
             }
             using (var vSqlCommand = new SqlCommand()
             {
@@ -159,14 +157,14 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = new StringBuilder();
-                vStringBuilder.AppendLine("UPDATE TicketPriority");
-                vStringBuilder.AppendLine("set    Tpr_Name = @TprName,");
-                vStringBuilder.AppendLine("       Tpr_Priority = @TprPriority,");
-                vStringBuilder.AppendLine("       Tpr_Class = @TprClass");
+                vStringBuilder.AppendLine("UPDATE Warehouse");
+                vStringBuilder.AppendLine("set    Whs_Name = @WhsName,");
+                vStringBuilder.AppendLine("       Whs_Code = @WhsCode,");
+                vStringBuilder.AppendLine("       Whs_IsTradingWarehouse = @WhsIsTradingWarehouse");
                 vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                vStringBuilder.AppendLine("and    Tpr_Key = @TprKey");
-                ObjectToData(vSqlCommand, aUserKey, aTicketPriority);
-                vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriority.TprKey);
+                vStringBuilder.AppendLine("and    Whs_Key = @WhsKey");
+                ObjectToData(vSqlCommand, aUserKey, aWarehouse);
+                vSqlCommand.Parameters.AddWithValue("@WhsKey", aWarehouse.WhsKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
                 vSqlCommand.Connection.Open();
                 vSqlCommand.ExecuteNonQuery();
@@ -176,11 +174,11 @@ namespace Grandmark
         #endregion
 
         #region Delete
-        public static void Delete(Connection aConnection, UserKey aUserKey, TicketPriorityKey aTicketPriorityKey)
+        public static void Delete(Connection aConnection, UserKey aUserKey, WarehouseKey aWarehouseKey)
         {
-            if (aTicketPriorityKey == null)
+            if (aWarehouseKey == null)
             {
-                throw new ArgumentNullException(nameof(aTicketPriorityKey));
+                throw new ArgumentNullException(nameof(aWarehouseKey));
             }
             try
             {
@@ -191,11 +189,11 @@ namespace Grandmark
                 })
                 {
                     var vStringBuilder = new StringBuilder();
-                    vStringBuilder.AppendLine("delete TicketPriority");
+                    vStringBuilder.AppendLine("delete Warehouse");
                     vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                    vStringBuilder.AppendLine("and    Tpr_Key = @TprKey");
+                    vStringBuilder.AppendLine("and    Whs_Key = @WhsKey");
                     vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-                    vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriorityKey.TprKey);
+                    vSqlCommand.Parameters.AddWithValue("@WhsKey", aWarehouseKey.WhsKey);
                     vSqlCommand.CommandText = vStringBuilder.ToString();
                     vSqlCommand.Connection.Open();
                     vSqlCommand.ExecuteNonQuery();
