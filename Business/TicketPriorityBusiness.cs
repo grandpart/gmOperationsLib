@@ -76,9 +76,9 @@ namespace Grandmark
 
         #region Delete
 
-        public static void Delete(Connection aConnection, UserKey aUserKey, TicketPriorityKey aTicketPriorityKey)
+        public static void Delete(Connection aConnection, UserKey aUserKey, TicketPriority aTicketPriority)
         {
-            if (aTicketPriorityKey == null)
+            if (aTicketPriority == null)
             {
                 throw new ArgumentNullException("aTicketPriority");
             }
@@ -88,7 +88,7 @@ namespace Grandmark
                 throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
             }
 
-            TicketPriorityData.Delete(aConnection, aUserKey, aTicketPriorityKey);
+            TicketPriorityData.Delete(aConnection, aUserKey, aTicketPriority);
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace Grandmark
         private static StringBuilder BuildSql()
         {
             var vStrignBuilder = new StringBuilder();
-            vStrignBuilder.AppendLine("SELECT tp.Ent_Key, tp.Tpr_Key, tp.Tpr_Name, tp.Tpr_Priority, tp.Tpr_Class");
+            vStrignBuilder.AppendLine("SELECT tp.EntKey, tp.TprKey, tp.TprName, tp.TprPriority, tp.TprClass");
             vStrignBuilder.AppendLine("FROM TicketPriority tp");
             return vStrignBuilder;
         }
@@ -27,11 +27,11 @@ namespace Grandmark
         /// <param name="aSqlDataReader"></param>
         private static void DataToObject(TicketPriority aTicketPriority, SqlDataReader aSqlDataReader)
         {
-            aTicketPriority.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
-            aTicketPriority.TprKey = Convert.ToInt32(aSqlDataReader["Tpr_Key"]);
-            aTicketPriority.TprName = Convert.ToString(aSqlDataReader["Tpr_Name"]);
-            aTicketPriority.TprPriority = Convert.ToInt32(aSqlDataReader["Tpr_Priority"]);
-            aTicketPriority.TprClass = Convert.ToString(aSqlDataReader["Tpr_Class"]);
+            aTicketPriority.EntKey = Convert.ToInt32(aSqlDataReader["EntKey"]);
+            aTicketPriority.TprKey = Convert.ToInt32(aSqlDataReader["TprKey"]);
+            aTicketPriority.TprName = Convert.ToString(aSqlDataReader["TprName"]);
+            aTicketPriority.TprPriority = Convert.ToInt32(aSqlDataReader["TprPriority"]);
+            aTicketPriority.TprClass = Convert.ToString(aSqlDataReader["TprClass"]);
         }
         #endregion
 
@@ -73,8 +73,8 @@ namespace Grandmark
             })
             {
                 var vStrignBuilder = BuildSql();
-                vStrignBuilder.AppendLine("WHERE tp.Ent_Key = @EntKey");
-                vStrignBuilder.AppendLine("AND   tp.Tpr_Key = @TprKey");
+                vStrignBuilder.AppendLine("WHERE tp.EntKey = @EntKey");
+                vStrignBuilder.AppendLine("AND   tp.TprKey = @TprKey");
                 vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
                 vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriority.TprKey);
                 vSqlCommand.CommandText = vStrignBuilder.ToString();
@@ -135,8 +135,8 @@ namespace Grandmark
         {
             var vStringBuilder = new StringBuilder();
             vStringBuilder.AppendLine("INSERT INTO TicketPriority");
-            vStringBuilder.AppendLine("       (Ent_Key, Tpr_Name, Tpr_Priority, Tpr_Class)");
-            vStringBuilder.AppendLine("output inserted.Tpr_Key");
+            vStringBuilder.AppendLine("       (EntKey, TprName, TprPriority, TprClass)");
+            vStringBuilder.AppendLine("output inserted.TprKey");
             vStringBuilder.AppendLine("values");
             vStringBuilder.AppendLine("       (@EntKey, @TprName, @TprPriority, @TprClass)");
             ObjectToData(aSqlCommand, aUserKey, aTicketPriority);
@@ -160,11 +160,11 @@ namespace Grandmark
             {
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("UPDATE TicketPriority");
-                vStringBuilder.AppendLine("set    Tpr_Name = @TprName,");
-                vStringBuilder.AppendLine("       Tpr_Priority = @TprPriority,");
-                vStringBuilder.AppendLine("       Tpr_Class = @TprClass");
-                vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                vStringBuilder.AppendLine("and    Tpr_Key = @TprKey");
+                vStringBuilder.AppendLine("set    TprName = @TprName,");
+                vStringBuilder.AppendLine("       TprPriority = @TprPriority,");
+                vStringBuilder.AppendLine("       TprClass = @TprClass");
+                vStringBuilder.AppendLine("where  EntKey = @EntKey");
+                vStringBuilder.AppendLine("and    TprKey = @TprKey");
                 ObjectToData(vSqlCommand, aUserKey, aTicketPriority);
                 vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriority.TprKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
@@ -176,11 +176,11 @@ namespace Grandmark
         #endregion
 
         #region Delete
-        public static void Delete(Connection aConnection, UserKey aUserKey, TicketPriorityKey aTicketPriorityKey)
+        public static void Delete(Connection aConnection, UserKey aUserKey, TicketPriority aTicketPriority)
         {
-            if (aTicketPriorityKey == null)
+            if (aTicketPriority == null)
             {
-                throw new ArgumentNullException(nameof(aTicketPriorityKey));
+                throw new ArgumentNullException(nameof(aTicketPriority));
             }
             try
             {
@@ -192,10 +192,10 @@ namespace Grandmark
                 {
                     var vStringBuilder = new StringBuilder();
                     vStringBuilder.AppendLine("delete TicketPriority");
-                    vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                    vStringBuilder.AppendLine("and    Tpr_Key = @TprKey");
+                    vStringBuilder.AppendLine("where  EntKey = @EntKey");
+                    vStringBuilder.AppendLine("and    TprKey = @TprKey");
                     vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-                    vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriorityKey.TprKey);
+                    vSqlCommand.Parameters.AddWithValue("@TprKey", aTicketPriority.TprKey);
                     vSqlCommand.CommandText = vStringBuilder.ToString();
                     vSqlCommand.Connection.Open();
                     vSqlCommand.ExecuteNonQuery();

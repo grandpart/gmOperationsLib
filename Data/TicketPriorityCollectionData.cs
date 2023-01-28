@@ -11,7 +11,7 @@ namespace Grandmark
         private static StringBuilder BuildSql()
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("select Ent_Key, Tpr_Key, Tpr_Name,  Tpr_Priority, Tpr_Class");
+            vStringBuilder.AppendLine("select EntKey, TprKey, TprName,  TprPriority, TprClass");
             vStringBuilder.AppendLine("from   TicketPriority");
             return vStringBuilder;
         }
@@ -21,11 +21,11 @@ namespace Grandmark
         #region DataToObject
         public static void DataToObject(TicketPriority aTicketPriority, SqlDataReader aSqlDataReader)
         {
-            aTicketPriority.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
-            aTicketPriority.TprKey = Convert.ToInt32(aSqlDataReader["Tpr_Key"]);
-            aTicketPriority.TprName = Convert.ToString(aSqlDataReader["Tpr_Name"]);
-            aTicketPriority.TprPriority = Convert.ToInt32(aSqlDataReader["Tpr_Priority"]);
-            aTicketPriority.TprClass = Convert.ToString(aSqlDataReader["Tpr_Class"]) ?? string.Empty;
+            aTicketPriority.EntKey = Convert.ToInt32(aSqlDataReader["EntKey"]);
+            aTicketPriority.TprKey = Convert.ToInt32(aSqlDataReader["TprKey"]);
+            aTicketPriority.TprName = Convert.ToString(aSqlDataReader["TprName"]);
+            aTicketPriority.TprPriority = Convert.ToInt32(aSqlDataReader["TprPriority"]);
+            aTicketPriority.TprClass = Convert.ToString(aSqlDataReader["TprClass"]) ?? string.Empty;
         }
         #endregion
 
@@ -66,8 +66,8 @@ namespace Grandmark
         {
             // Get a flat list of OrganizationProxy for the collection and the dictionary
             var vStringBuilder = BuildSql();
-            vStringBuilder.AppendLine("where Ent_Key = @EntKey");
-            vStringBuilder.AppendLine("order by Tpr_Key");
+            vStringBuilder.AppendLine("where EntKey = @EntKey");
+            vStringBuilder.AppendLine("order by TprKey");
             aSqlCommand.Parameters.Clear();
             aSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
             aSqlCommand.CommandText = vStringBuilder.ToString();
