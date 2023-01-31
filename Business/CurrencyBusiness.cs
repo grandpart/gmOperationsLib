@@ -76,11 +76,11 @@ namespace Grandmark
 
         #region Delete
 
-        public static void Delete(Connection aConnection, UserKey aUserKey, CurrencyKey aCurrencyKey)
+        public static void Delete(Connection aConnection, UserKey aUserKey, Currency aCurrency)
         {
-            if (aCurrencyKey == null)
+            if (aCurrency == null)
             {
-                throw new ArgumentNullException("aCurrencyKey");
+                throw new ArgumentNullException("aCurrency");
             }
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
@@ -88,7 +88,7 @@ namespace Grandmark
                 throw new TransactionStatusException(TransactionResult.Access, "Currency");
             }
 
-            CurrencyData.Delete(aConnection, aUserKey, aCurrencyKey);
+            CurrencyData.Delete(aConnection, aUserKey, aCurrency);
         }
 
         #endregion

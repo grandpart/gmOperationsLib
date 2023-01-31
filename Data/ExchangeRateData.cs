@@ -1,18 +1,19 @@
-﻿using System.Data;
+﻿using Grandmark;
 using System.Data.SqlClient;
+using System.Data;
 using System.Text;
 using Zephry;
 
 namespace Grandmark
 {
-    public class CurrencyData
+    public class ExchangeRateData
     {
         #region BuildSQL
         private static StringBuilder BuildSql()
         {
             var vStrignBuilder = new StringBuilder();
-            vStrignBuilder.AppendLine("SELECT c.EntKey, c.CurKey, c.CurCode, c.CurPrefix, c.CurName");
-            vStrignBuilder.AppendLine("FROM Currency c");
+            vStrignBuilder.AppendLine("SELECT e.EntKey, e.ExrKey, e.CurKey, e.ExrFinYear, e.ExrFinMonth, e.ExrRate");
+            vStrignBuilder.AppendLine("FROM ExchangeRate e");
             return vStrignBuilder;
         }
         #endregion
@@ -21,15 +22,16 @@ namespace Grandmark
         /// <summary>
         /// Populate object with values read from database
         /// </summary>
-        /// <param name="aTicketPriority"></param>
+        /// <param name="aExchangeRate"></param>
         /// <param name="aSqlDataReader"></param>
-        private static void DataToObject(Currency aCurrency, SqlDataReader aSqlDataReader)
+        private static void DataToObject(ExchangeRate aExchangeRate, SqlDataReader aSqlDataReader)
         {
-            aCurrency.EntKey = Convert.ToInt32(aSqlDataReader["EntKey"]);
-            aCurrency.CurKey = Convert.ToInt32(aSqlDataReader["CurKey"]);
-            aCurrency.CurCode = Convert.ToString(aSqlDataReader["CurCode"]);
-            aCurrency.CurPrefix = Convert.ToString(aSqlDataReader["CurPrefix"]);
-            aCurrency.CurName = Convert.ToString(aSqlDataReader["CurName"]);
+            aExchangeRate.EntKey = Convert.ToInt32(aSqlDataReader["EntKey"]);
+            aExchangeRate.ExrKey = Convert.ToInt32(aSqlDataReader["ExrKey"]);
+            aExchangeRate.CurKey = Convert.ToInt32(aSqlDataReader["CurKey"]);
+            aExchangeRate.ExrFinYear = Convert.ToInt32(aSqlDataReader["ExrFinYear"]);
+            aExchangeRate.ExrFinMonth = Convert.ToInt32(aSqlDataReader["ExrFinMonth"]);
+            aExchangeRate.ExrRate = Convert.ToDecimal(aSqlDataReader["ExrRate"]);
         }
         #endregion
 
@@ -39,13 +41,15 @@ namespace Grandmark
         /// </summary>
         /// <param name="aSqlCommand"></param>
         /// <param name="aUserKey"></param>
-        /// <param name="aTicketPriority"></param>
-        private static void ObjectToData(SqlCommand aSqlCommand, UserKey aUserKey, Currency aCurrency)
+        /// <param name="aExchangeRate"></param>
+        private static void ObjectToData(SqlCommand aSqlCommand, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
             aSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-            aSqlCommand.Parameters.AddWithValue("@CurCode", aCurrency.CurCode);
-            aSqlCommand.Parameters.AddWithValue("@CurPrefix", aCurrency.CurPrefix);
-            aSqlCommand.Parameters.AddWithValue("@CurName", aCurrency.CurName);
+            //aSqlCommand.Parameters.AddWithValue("@ExrKey", aExchangeRate.ExrKey);
+            aSqlCommand.Parameters.AddWithValue("@CurKey", aExchangeRate.CurKey);
+            aSqlCommand.Parameters.AddWithValue("@ExrFinYear", aExchangeRate.ExrFinYear);
+            aSqlCommand.Parameters.AddWithValue("@ExrFinMonth", aExchangeRate.ExrFinMonth);
+            aSqlCommand.Parameters.AddWithValue("@ExrRate", aExchangeRate.ExrRate);
         }
         #endregion
 
@@ -53,11 +57,11 @@ namespace Grandmark
         /// <summary>
         /// Load a single record from database
         /// </summary>
-        public static void Load(Connection aConnection, UserKey aUserKey, Currency aCurrency)
+        public static void Load(Connection aConnection, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
-            if (aCurrency == null)
+            if (aExchangeRate == null)
             {
-                throw new ArgumentNullException("aCurrency");
+                throw new ArgumentNullException("aExchangeRate");
             }
 
             using (var vSqlCommand = new SqlCommand()
@@ -67,10 +71,10 @@ namespace Grandmark
             })
             {
                 var vStrignBuilder = BuildSql();
-                vStrignBuilder.AppendLine("WHERE c.EntKey = @EntKey");
-                vStrignBuilder.AppendLine("AND   c.CurKey = @CurKey");
+                vStrignBuilder.AppendLine("WHERE e.EntKey = @EntKey");
+                vStrignBuilder.AppendLine("AND   e.ExrKey = @ExrKey");
                 vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-                vSqlCommand.Parameters.AddWithValue("@CurKey", aCurrency.CurKey);
+                vSqlCommand.Parameters.AddWithValue("@ExrKey", aExchangeRate.ExrKey);
                 vSqlCommand.CommandText = vStrignBuilder.ToString();
                 vSqlCommand.Connection.Open();
                 using (var vSqlDataReader = vSqlCommand.ExecuteReader())
@@ -78,12 +82,12 @@ namespace Grandmark
                     if (vSqlDataReader.HasRows)
                     {
                         vSqlDataReader.Read();
-                        DataToObject(aCurrency, vSqlDataReader);
+                        DataToObject(aExchangeRate, vSqlDataReader);
                     }
                     else
                     {
                         //Need to make sure on what to pass back when no record is returned
-                        aCurrency = null;
+                        aExchangeRate = null;
                     }
                     vSqlDataReader.Close();
                 }
@@ -99,9 +103,9 @@ namespace Grandmark
         /// </summary>
         /// <param name="aConnection"></param>
         /// <param name="aUserKey"></param>
-        /// <param name="aTicketPriority"></param>
+        /// <param name="aExchangeRate"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void LoadList(Connection aConnection, UserKey aUserKey, List<Currency> aCurrencyCollection)
+        public static void LoadList(Connection aConnection, UserKey aUserKey, List<ExchangeRate> aExchangeRateCollection)
         {
             //if (aTicketPriority == null)
             //{
@@ -117,7 +121,7 @@ namespace Grandmark
                 var vStrignBuilder = BuildSql();
 
                 //We want the list of priorities for the entity the user is linked to
-                vStrignBuilder.AppendLine("WHERE c.EntKey = @EntKey");
+                vStrignBuilder.AppendLine("WHERE e.EntKey = @EntKey");
                 vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
 
                 vSqlCommand.CommandText = vStrignBuilder.ToString();
@@ -127,9 +131,9 @@ namespace Grandmark
                 {
                     while (vSqlDataReader.Read())
                     {
-                        var vCurrency = new Currency();
-                        DataToObject(vCurrency, vSqlDataReader);
-                        aCurrencyCollection.Add(vCurrency);
+                        var vExchangeRate = new ExchangeRate();
+                        DataToObject(vExchangeRate, vSqlDataReader);
+                        aExchangeRateCollection.Add(vExchangeRate);
 
                     }
 
@@ -142,11 +146,11 @@ namespace Grandmark
         #endregion
 
         #region Insert with a Connection
-        public static void Insert(Connection aConnection, UserKey aUserKey, Currency aCurrency)
+        public static void Insert(Connection aConnection, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
-            if (aCurrency == null)
+            if (aExchangeRate == null)
             {
-                throw new ArgumentNullException(nameof(aCurrency));
+                throw new ArgumentNullException(nameof(aExchangeRate));
             }
             using (var vSqlCommand = new SqlCommand()
             {
@@ -155,44 +159,44 @@ namespace Grandmark
             })
             {
                 vSqlCommand.Connection.Open();
-                InsertCommon(vSqlCommand, aUserKey, aCurrency);
+                InsertCommon(vSqlCommand, aUserKey, aExchangeRate);
                 vSqlCommand.Connection.Close();
             }
         }
         #endregion
 
         #region Insert with an SqlCommand
-        public static void Insert(SqlCommand aSqlCommand, UserKey aUserKey, Currency aCurrency)
+        public static void Insert(SqlCommand aSqlCommand, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
-            if (aCurrency == null)
+            if (aExchangeRate == null)
             {
-                throw new ArgumentNullException(nameof(aCurrency));
+                throw new ArgumentNullException(nameof(aExchangeRate));
             }
-            InsertCommon(aSqlCommand, aUserKey, aCurrency);
+            InsertCommon(aSqlCommand, aUserKey, aExchangeRate);
         }
         #endregion
 
         #region Insert Common
-        private static void InsertCommon(SqlCommand aSqlCommand, UserKey aUserKey, Currency aCurrency)
+        private static void InsertCommon(SqlCommand aSqlCommand, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("INSERT INTO Currency");
-            vStringBuilder.AppendLine("       (EntKey, CurCode, CurPrefix, CurName)");
-            vStringBuilder.AppendLine("output inserted.CurKey");
+            vStringBuilder.AppendLine("INSERT INTO ExchangeRate");
+            vStringBuilder.AppendLine("       (EntKey, CurKey, ExrFinYear, ExrFinMonth, ExrRate)");
+            vStringBuilder.AppendLine("output inserted.ExrKey");
             vStringBuilder.AppendLine("values");
-            vStringBuilder.AppendLine("       (@EntKey, @CurCode, @CurPrefix, @CurName)");
-            ObjectToData(aSqlCommand, aUserKey, aCurrency);
+            vStringBuilder.AppendLine("       (@EntKey, @CurKey, @ExrFinYear, @ExrFinMonth, @ExrRate)");
+            ObjectToData(aSqlCommand, aUserKey, aExchangeRate);
             aSqlCommand.CommandText = vStringBuilder.ToString();
-            aCurrency.CurKey = Convert.ToInt32(aSqlCommand.ExecuteScalar());
+            aExchangeRate.ExrKey = Convert.ToInt32(aSqlCommand.ExecuteScalar());
         }
         #endregion
 
         #region Update
-        public static void Update(Connection aConnection, UserKey aUserKey, Currency aCurrency)
+        public static void Update(Connection aConnection, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
-            if (aCurrency == null)
+            if (aExchangeRate == null)
             {
-                throw new ArgumentNullException("aCurrency");
+                throw new ArgumentNullException("aExchangeRate");
             }
             using (var vSqlCommand = new SqlCommand()
             {
@@ -201,14 +205,15 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = new StringBuilder();
-                vStringBuilder.AppendLine("UPDATE Currency");
-                vStringBuilder.AppendLine("set    CurCode = @CurCode,");
-                vStringBuilder.AppendLine("       CurPrefix = @CurPrefix,");
-                vStringBuilder.AppendLine("       CurName = @CurName");
+                vStringBuilder.AppendLine("UPDATE ExchangeRate");
+                vStringBuilder.AppendLine("set    CurKey = @CurKey,");
+                vStringBuilder.AppendLine("       ExrFinYear = @ExrFinYear,");
+                vStringBuilder.AppendLine("       ExrFinMonth = @ExrFinMonth,");
+                vStringBuilder.AppendLine("       ExrRate = @ExrRate");
                 vStringBuilder.AppendLine("where  EntKey = @EntKey");
-                vStringBuilder.AppendLine("and    CurKey = @CurKey");
-                ObjectToData(vSqlCommand, aUserKey, aCurrency);
-                vSqlCommand.Parameters.AddWithValue("@CurKey", aCurrency.CurKey);
+                vStringBuilder.AppendLine("and    ExrKey = @ExrKey");
+                ObjectToData(vSqlCommand, aUserKey, aExchangeRate);
+                vSqlCommand.Parameters.AddWithValue("@ExrKey", aExchangeRate.ExrKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
                 vSqlCommand.Connection.Open();
                 vSqlCommand.ExecuteNonQuery();
@@ -218,11 +223,11 @@ namespace Grandmark
         #endregion
 
         #region Delete
-        public static void Delete(Connection aConnection, UserKey aUserKey, Currency aCurrency)
+        public static void Delete(Connection aConnection, UserKey aUserKey, ExchangeRate aExchangeRate)
         {
-            if (aCurrency == null)
+            if (aExchangeRate == null)
             {
-                throw new ArgumentNullException(nameof(aCurrency));
+                throw new ArgumentNullException(nameof(aExchangeRate));
             }
             try
             {
@@ -233,11 +238,11 @@ namespace Grandmark
                 })
                 {
                     var vStringBuilder = new StringBuilder();
-                    vStringBuilder.AppendLine("delete Currency");
+                    vStringBuilder.AppendLine("delete ExchangeRate");
                     vStringBuilder.AppendLine("where  EntKey = @EntKey");
-                    vStringBuilder.AppendLine("and    CurKey = @CurKey");
+                    vStringBuilder.AppendLine("and    ExrKey = @ExrKey");
                     vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-                    vSqlCommand.Parameters.AddWithValue("@CurKey", aCurrency.CurKey);
+                    vSqlCommand.Parameters.AddWithValue("@ExrKey", aExchangeRate.ExrKey);
                     vSqlCommand.CommandText = vStringBuilder.ToString();
                     vSqlCommand.Connection.Open();
                     vSqlCommand.ExecuteNonQuery();
