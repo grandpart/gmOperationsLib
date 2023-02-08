@@ -18,7 +18,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Organization"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Organization");
+                throw new TransactionStatusException(TransactionResult.Role, "Organization");
             }
 
             OrganizationData.Load(aConnection, aUserKey, aOrganization);
@@ -36,7 +36,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Organization"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Organization");
+                throw new TransactionStatusException(TransactionResult.Role, "Organization");
             }
 
             OrganizationData.Insert(aConnection, aUserKey, aOrganization);
@@ -60,7 +60,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Organization"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Organization");
+                throw new TransactionStatusException(TransactionResult.Role, "Organization");
             }
 
             OrganizationData.Update(aConnection, aUserKey, aOrganization);
@@ -79,7 +79,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Organization"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Organization");
+                throw new TransactionStatusException(TransactionResult.Role, "Organization");
             }
 
             OrganizationData.Delete(aConnection, aUserKey, aOrganizationKey);

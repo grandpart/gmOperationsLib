@@ -14,15 +14,15 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Role, "TicketPriority");
             }
 
             TicketPriorityData.Load(aConnection, aUserKey, aTicketPriority);
         }
         #endregion
 
-        #region Load List
-        public static void LoadList(Connection aConnection, UserKey aUserKey, TicketPriorityCollection aTicketPriorityCollection)
+        #region Load Collection
+        public static void Load(Connection aConnection, UserKey aUserKey, TicketPriorityCollection aTicketPriorityCollection)
         {
             if (aTicketPriorityCollection == null)
             {
@@ -31,10 +31,10 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriorityCollection"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriorityCollection");
+                throw new TransactionStatusException(TransactionResult.Role, "TicketPriorityCollection");
             }
 
-            TicketPriorityCollectionData.Load(aConnection, aUserKey, aTicketPriorityCollection);
+            TicketPriorityData.Load(aConnection, aUserKey, aTicketPriorityCollection);
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Role, "TicketPriority");
             }
 
             TicketPriorityData.Insert(aConnection, aUserKey, aTicketPriority);
@@ -66,7 +66,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Role, "TicketPriority");
             }
 
             TicketPriorityData.Update(aConnection, aUserKey, aTicketPriority);
@@ -85,7 +85,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Role, "TicketPriority");
             }
 
             TicketPriorityData.Delete(aConnection, aUserKey, aTicketPriority);

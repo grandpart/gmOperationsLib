@@ -42,12 +42,12 @@ namespace Grandmark
         private static bool HasRoleAccessCommon(SqlCommand aSqlCommand, UserKey aUserKey, string aFunction)
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("select count(distinct url.SRL_Key) as FNC_AccessCount");
-            vStringBuilder.AppendLine("from URL_UserRole url,");
-            vStringBuilder.AppendLine("     SRL_SysRole srl");
-            vStringBuilder.AppendLine("where url.SRL_Key = srl.SRL_Key");
-            vStringBuilder.AppendLine("and url.USR_Key = @USRKey");
-            vStringBuilder.AppendLine("and srl.SRL_Code = @FNCCode");
+            vStringBuilder.AppendLine("select count(distinct url.SRLKey) as FNCAccessCount");
+            vStringBuilder.AppendLine("from URLUserRole url,");
+            vStringBuilder.AppendLine("     SRLSysRole srl");
+            vStringBuilder.AppendLine("where url.SRLKey = srl.SRLKey");
+            vStringBuilder.AppendLine("and url.USRKey = @USRKey");
+            vStringBuilder.AppendLine("and srl.SRLCode = @FNCCode");
             aSqlCommand.Parameters.Clear();
             aSqlCommand.Parameters.AddWithValue("@USRKey", aUserKey.UsrKey);
             aSqlCommand.Parameters.AddWithValue("@FNCCode", aFunction);

@@ -14,7 +14,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "ExchangeRate"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "ExchangeRate");
+                throw new TransactionStatusException(TransactionResult.Role, "ExchangeRate");
             }
 
             ExchangeRateData.Load(aConnection, aUserKey, aExchangeRate);
@@ -31,7 +31,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "ExchangeRateCollection"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "ExchangeRateCollection");
+                throw new TransactionStatusException(TransactionResult.Role, "ExchangeRateCollection");
             }
 
             ExchangeRateCollectionData.Load(aConnection, aUserKey, aExchangeRateCollection);
@@ -48,7 +48,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "ExchangeRate"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "ExchangeRate");
+                throw new TransactionStatusException(TransactionResult.Role, "ExchangeRate");
             }
 
             ExchangeRateData.Insert(aConnection, aUserKey, aExchangeRate);
@@ -66,7 +66,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "ExchangeRate"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "ExchangeRate");
+                throw new TransactionStatusException(TransactionResult.Role, "ExchangeRate");
             }
 
             ExchangeRateData.Update(aConnection, aUserKey, aExchangeRate);
@@ -85,7 +85,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "ExchangeRate"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "ExchangeRate");
+                throw new TransactionStatusException(TransactionResult.Role, "ExchangeRate");
             }
 
             ExchangeRateData.Delete(aConnection, aUserKey, aExchangeRate);

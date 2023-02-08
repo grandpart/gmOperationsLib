@@ -22,11 +22,11 @@ namespace Grandmark
         private static StringBuilder BuildSql()
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("select org.Ent_Key, org.Org_Key, org.Ent_KeyParent, org.Org_KeyParent,");
-            vStringBuilder.AppendLine("       org.Org_Name, isnull(own.Org_Name, '-- none --') as Org_NameParent");
+            vStringBuilder.AppendLine("select org.EntKey, org.OrgKey, org.EntKeyParent, org.OrgKeyParent,");
+            vStringBuilder.AppendLine("       org.OrgName, isnull(own.OrgName, '-- none --') as OrgNameParent");
             vStringBuilder.AppendLine("from Organization org left outer join Organization own");
-            vStringBuilder.AppendLine("                          on  org.Ent_KeyParent = own.Ent_Key");
-            vStringBuilder.AppendLine("                          and org.Org_KeyParent = own.Org_Key");
+            vStringBuilder.AppendLine("                          on  org.EntKeyParent = own.EntKey");
+            vStringBuilder.AppendLine("                          and org.OrgKeyParent = own.OrgKey");
             return vStringBuilder;
         }
 
@@ -41,11 +41,11 @@ namespace Grandmark
         /// <param name="aSqlDataReader">A <see cref="SqlDataReader"/> argument.</param>
         public static void DataToObject(Organization aOrganization, SqlDataReader aSqlDataReader)
         {
-            aOrganization.OrgKey = Convert.ToInt32(aSqlDataReader["Org_Key"]);
-            aOrganization.EntKeyParent = aSqlDataReader["Ent_KeyParent"] as int?;
-            aOrganization.OrgKeyParent = aSqlDataReader["Org_KeyParent"] as int?;
-            aOrganization.OrgName = Convert.ToString(aSqlDataReader["Org_Name"]);
-            aOrganization.OrgNameParent = Convert.ToString(aSqlDataReader["Org_NameParent"]);
+            aOrganization.OrgKey = Convert.ToInt32(aSqlDataReader["OrgKey"]);
+            aOrganization.EntKeyParent = aSqlDataReader["EntKeyParent"] as int?;
+            aOrganization.OrgKeyParent = aSqlDataReader["OrgKeyParent"] as int?;
+            aOrganization.OrgName = Convert.ToString(aSqlDataReader["OrgName"]);
+            aOrganization.OrgNameParent = Convert.ToString(aSqlDataReader["OrgNameParent"]);
         }
 
         #endregion
@@ -82,8 +82,8 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = BuildSql();
-                vStringBuilder.AppendLine("where org.Ent_Key = @EntKey");
-                vStringBuilder.AppendLine("and   org.Org_Key = @OrgKey");
+                vStringBuilder.AppendLine("where org.EntKey = @EntKey");
+                vStringBuilder.AppendLine("and   org.OrgKey = @OrgKey");
                 vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
                 vSqlCommand.Parameters.AddWithValue("@OrgKey", aOrganization.OrgKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
@@ -142,8 +142,8 @@ namespace Grandmark
         {
             var vStringBuilder = new StringBuilder();
             vStringBuilder.AppendLine("insert into Organization");
-            vStringBuilder.AppendLine("       (Ent_Key, Ent_KeyParent, Org_KeyParent, Org_Name)");
-            vStringBuilder.AppendLine("output inserted.Org_Key");
+            vStringBuilder.AppendLine("       (EntKey, EntKeyParent, OrgKeyParent, OrgName)");
+            vStringBuilder.AppendLine("output inserted.OrgKey");
             vStringBuilder.AppendLine("values");
             vStringBuilder.AppendLine("       (@EntKey, @EntKeyParent, @OrgKeyParent, @OrgName)");
             ObjectToData(aSqlCommand, aUserKey, aOrganization);
@@ -167,10 +167,10 @@ namespace Grandmark
             {
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("update Organization");
-                vStringBuilder.AppendLine("set    Org_KeyParent = @OrgKeyParent,");
-                vStringBuilder.AppendLine("       Org_Name = @OrgName");
-                vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                vStringBuilder.AppendLine("and    Org_Key = @OrgKey");
+                vStringBuilder.AppendLine("set    OrgKeyParent = @OrgKeyParent,");
+                vStringBuilder.AppendLine("       OrgName = @OrgName");
+                vStringBuilder.AppendLine("where  EntKey = @EntKey");
+                vStringBuilder.AppendLine("and    OrgKey = @OrgKey");
                 ObjectToData(vSqlCommand, aUserKey, aOrganization);
                 vSqlCommand.Parameters.AddWithValue("@OrgKey", aOrganization.OrgKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
@@ -198,8 +198,8 @@ namespace Grandmark
                 {
                     var vStringBuilder = new StringBuilder();
                     vStringBuilder.AppendLine("delete Organization");
-                    vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                    vStringBuilder.AppendLine("and    Org_Key = @OrgKey");
+                    vStringBuilder.AppendLine("where  EntKey = @EntKey");
+                    vStringBuilder.AppendLine("and    OrgKey = @OrgKey");
                     vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
                     vSqlCommand.Parameters.AddWithValue("@OrgKey", aOrganizationKey.OrgKey);
                     vSqlCommand.CommandText = vStringBuilder.ToString();

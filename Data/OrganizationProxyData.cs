@@ -22,7 +22,7 @@ namespace Grandmark
         private static StringBuilder BuildSql()
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("select Ent_Key, Org_Key, Ent_KeyParent, Org_KeyParent, Org_Name");
+            vStringBuilder.AppendLine("select EntKey, OrgKey, EntKeyParent, OrgKeyParent, OrgName");
             vStringBuilder.AppendLine("from   Organization");
             return vStringBuilder;
         }
@@ -38,11 +38,11 @@ namespace Grandmark
         /// <param name="aSqlDataReader">A <see cref="SqlDataReader"/> argument.</param>
         public static void DataToObject(OrganizationProxy aOrganizationProxy, SqlDataReader aSqlDataReader)
         {
-            aOrganizationProxy.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
-            aOrganizationProxy.OrgKey = Convert.ToInt32(aSqlDataReader["Org_Key"]);
-            aOrganizationProxy.EntKeyParent = aSqlDataReader["Ent_KeyParent"] as int?;
-            aOrganizationProxy.OrgKeyParent = aSqlDataReader["Org_KeyParent"] as int?;
-            aOrganizationProxy.OrgName = Convert.ToString(aSqlDataReader["Org_Name"]) ?? string.Empty;
+            aOrganizationProxy.EntKey = Convert.ToInt32(aSqlDataReader["EntKey"]);
+            aOrganizationProxy.OrgKey = Convert.ToInt32(aSqlDataReader["OrgKey"]);
+            aOrganizationProxy.EntKeyParent = aSqlDataReader["EntKeyParent"] as int?;
+            aOrganizationProxy.OrgKeyParent = aSqlDataReader["OrgKeyParent"] as int?;
+            aOrganizationProxy.OrgName = Convert.ToString(aSqlDataReader["OrgName"]) ?? string.Empty;
         }
         #endregion
 
@@ -86,8 +86,8 @@ namespace Grandmark
 
             // Get a flat list of OrganizationProxy for the collection and the dictionary
             var vStringBuilder = BuildSql();
-            vStringBuilder.AppendLine("where Ent_Key = @EntKey");
-            vStringBuilder.AppendLine("order by Org_Name");
+            vStringBuilder.AppendLine("where EntKey = @EntKey");
+            vStringBuilder.AppendLine("order by OrgName");
             aSqlCommand.Parameters.Clear();
             aSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
             aSqlCommand.CommandText = vStringBuilder.ToString();

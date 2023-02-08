@@ -14,7 +14,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Warehouse"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Warehouse");
+                throw new TransactionStatusException(TransactionResult.Role, "Warehouse");
             }
 
             WarehouseData.Load(aConnection, aUserKey, aWarehouse);
@@ -31,7 +31,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "WarehouseCollection"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "WarehouseCollection");
+                throw new TransactionStatusException(TransactionResult.Role, "WarehouseCollection");
             }
 
             WarehouseCollectionData.Load(aConnection, aUserKey, aWarehouseCollection);
@@ -48,7 +48,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Warehouse"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Warehouse");
+                throw new TransactionStatusException(TransactionResult.Role, "Warehouse");
             }
 
             WarehouseData.Insert(aConnection, aUserKey, aWarehouse);
@@ -66,7 +66,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Warehouse"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Warehouse");
+                throw new TransactionStatusException(TransactionResult.Role, "Warehouse");
             }
 
             WarehouseData.Update(aConnection, aUserKey, aWarehouse);
@@ -85,7 +85,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Warehouse"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Warehouse");
+                throw new TransactionStatusException(TransactionResult.Role, "Warehouse");
             }
 
             WarehouseData.Delete(aConnection, aUserKey, aWarehouseKey);

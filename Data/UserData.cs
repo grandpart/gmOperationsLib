@@ -20,15 +20,15 @@ namespace Grandmark
         private static StringBuilder BuildSql()
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("select usr.Ent_Key, usr.Usr_Key, usr.Usr_ParentEnt, usr.Usr_ParentKey,");
-            vStringBuilder.AppendLine("       usr.QLF_Key, qlf.QLF_Name,  usr.Usr_Admin, usr.Usr_AutoAuthorize, usr.Usr_CanAuthorize,");
-            vStringBuilder.AppendLine("       usr.Usr_UserID, usr.Usr_Password, usr.Usr_Name, usr.Usr_Surname,");
-            vStringBuilder.AppendLine("       own.Usr_Name + ' ' + own.Usr_Surname as Usr_ParentFullName,");
-            vStringBuilder.AppendLine("       usr.Usr_Identifier, usr.Usr_Email, usr.Usr_Rate, usr.Usr_Cost, usr.Usr_Mobile, usr.Usr_Phone,");
-            vStringBuilder.AppendLine("       usr.Usr_Extension, usr.Usr_Fax, usr.Usr_Status, usr.Usr_StatusDate, usr.Usr_Token, usr.Usr_Avatar");
-            vStringBuilder.AppendLine("from   Usr_User usr left outer join Usr_User own");
-            vStringBuilder.AppendLine("                        on  usr.Usr_ParentEnt = own.Ent_Key");
-            vStringBuilder.AppendLine("                        and usr.Usr_ParentKey = own.Usr_Key");
+            vStringBuilder.AppendLine("select usr.EntKey, usr.UsrKey, usr.UsrParentEnt, usr.UsrParentKey,");
+            vStringBuilder.AppendLine("       usr.QLFKey, qlf.QLFName,  usr.UsrAdmin, usr.UsrAutoAuthorize, usr.UsrCanAuthorize,");
+            vStringBuilder.AppendLine("       usr.UsrUserID, usr.UsrPassword, usr.UsrName, usr.UsrSurname,");
+            vStringBuilder.AppendLine("       own.UsrName + ' ' + own.UsrSurname as UsrParentFullName,");
+            vStringBuilder.AppendLine("       usr.UsrIdentifier, usr.UsrEmail, usr.UsrRate, usr.UsrCost, usr.UsrMobile, usr.UsrPhone,");
+            vStringBuilder.AppendLine("       usr.UsrExtension, usr.UsrFax, usr.UsrStatus, usr.UsrStatusDate, usr.UsrToken, usr.UsrAvatar");
+            vStringBuilder.AppendLine("from   UsrUser usr left outer join UsrUser own");
+            vStringBuilder.AppendLine("                        on  usr.UsrParentEnt = own.EntKey");
+            vStringBuilder.AppendLine("                        and usr.UsrParentKey = own.UsrKey");
             return vStringBuilder;
         }
 
@@ -43,27 +43,27 @@ namespace Grandmark
         /// <param name="aSqlDataReader">A <see cref="SqlDataReader"/> argument.</param>
         public static void DataToObject(User aUser, SqlDataReader aSqlDataReader)
         {
-            aUser.UsrKey = Convert.ToInt32(aSqlDataReader["Usr_Key"]);
-            aUser.ParentUsrKey = aSqlDataReader["Usr_ParentKey"] as int?;
-            aUser.UsrAdmin = Convert.ToString(aSqlDataReader["Usr_Admin"]) == "Y";
-            aUser.UsrAutoAuthorize = Convert.ToString(aSqlDataReader["Usr_AutoAuthorize"]) == "Y";
-            aUser.UsrCanAuthorize = Convert.ToString(aSqlDataReader["Usr_CanAuthorize"]) == "Y";
-            aUser.UsrUserId = Convert.ToString(aSqlDataReader["Usr_UserID"]) ?? string.Empty;
-            aUser.UsrPassword = Convert.ToString(aSqlDataReader["Usr_Password"]) ?? string.Empty;
-            aUser.UsrName = Convert.ToString(aSqlDataReader["Usr_Name"]) ?? string.Empty;
-            aUser.UsrSurname = Convert.ToString(aSqlDataReader["Usr_Surname"]) ?? string.Empty;
-            aUser.UsrParentFullName = Convert.ToString(aSqlDataReader["Usr_ParentFullName"]) ?? string.Empty;
-            aUser.UsrEmail = Convert.ToString(aSqlDataReader["Usr_Email"]) ?? string.Empty;
+            aUser.UsrKey = Convert.ToInt32(aSqlDataReader["UsrKey"]);
+            aUser.ParentUsrKey = aSqlDataReader["UsrParentKey"] as int?;
+            aUser.UsrAdmin = Convert.ToString(aSqlDataReader["UsrAdmin"]) == "Y";
+            aUser.UsrAutoAuthorize = Convert.ToString(aSqlDataReader["UsrAutoAuthorize"]) == "Y";
+            aUser.UsrCanAuthorize = Convert.ToString(aSqlDataReader["UsrCanAuthorize"]) == "Y";
+            aUser.UsrUserId = Convert.ToString(aSqlDataReader["UsrUserID"]) ?? string.Empty;
+            aUser.UsrPassword = Convert.ToString(aSqlDataReader["UsrPassword"]) ?? string.Empty;
+            aUser.UsrName = Convert.ToString(aSqlDataReader["UsrName"]) ?? string.Empty;
+            aUser.UsrSurname = Convert.ToString(aSqlDataReader["UsrSurname"]) ?? string.Empty;
+            aUser.UsrParentFullName = Convert.ToString(aSqlDataReader["UsrParentFullName"]) ?? string.Empty;
+            aUser.UsrEmail = Convert.ToString(aSqlDataReader["UsrEmail"]) ?? string.Empty;
             //
-            aUser.UsrIdentifier = Convert.ToString(aSqlDataReader["Usr_Identifier"]) ?? string.Empty;
-            aUser.UsrMobile = Convert.ToString(aSqlDataReader["Usr_Mobile"]) ?? string.Empty;
-            aUser.UsrPhone = Convert.ToString(aSqlDataReader["Usr_Phone"]) ?? string.Empty;
-            aUser.UsrExtension = Convert.ToString(aSqlDataReader["Usr_Extension"]) ?? string.Empty;
-            aUser.UsrFax = Convert.ToString(aSqlDataReader["Usr_Fax"]) ?? string.Empty;
-            //aUser.UsrAvatar = DrawingUtils.ByteToBase64String(CommonUtils.DbValueTo<byte[]>(aSqlDataReader["Usr_Avatar"], null));
-            aUser.UsrStatus = (UserStatus)Convert.ToInt32(aSqlDataReader["Usr_Status"]);
-            aUser.UsrStatusDate = Convert.ToDateTime(aSqlDataReader["Usr_StatusDate"]);
-            aUser.UsrToken = Convert.ToString(aSqlDataReader["Usr_Token"]) ?? string.Empty;
+            aUser.UsrIdentifier = Convert.ToString(aSqlDataReader["UsrIdentifier"]) ?? string.Empty;
+            aUser.UsrMobile = Convert.ToString(aSqlDataReader["UsrMobile"]) ?? string.Empty;
+            aUser.UsrPhone = Convert.ToString(aSqlDataReader["UsrPhone"]) ?? string.Empty;
+            aUser.UsrExtension = Convert.ToString(aSqlDataReader["UsrExtension"]) ?? string.Empty;
+            aUser.UsrFax = Convert.ToString(aSqlDataReader["UsrFax"]) ?? string.Empty;
+            //aUser.UsrAvatar = DrawingUtils.ByteToBase64String(CommonUtils.DbValueTo<byte[]>(aSqlDataReader["UsrAvatar"], null));
+            aUser.UsrStatus = (UserStatus)Convert.ToInt32(aSqlDataReader["UsrStatus"]);
+            aUser.UsrStatusDate = Convert.ToDateTime(aSqlDataReader["UsrStatusDate"]);
+            aUser.UsrToken = Convert.ToString(aSqlDataReader["UsrToken"]) ?? string.Empty;
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = BuildSql();
-                vStringBuilder.AppendLine("where usr.Usr_UserID = @USRUserID");
+                vStringBuilder.AppendLine("where usr.UsrUserID = @USRUserID");
                 vSqlCommand.Parameters.AddWithValue("@USRUserID", aUser.UsrUserId);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
                 vSqlCommand.Connection.Open();
@@ -128,7 +128,7 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = BuildSql();
-                vStringBuilder.AppendLine("where usr.Usr_Key = @USRKey");
+                vStringBuilder.AppendLine("where usr.UsrKey = @USRKey");
                 vSqlCommand.Parameters.AddWithValue("@USRKey", aUser.UsrKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
                 vSqlCommand.Connection.Open();
@@ -136,7 +136,7 @@ namespace Grandmark
                 {
                     if (!vSqlDataReader.HasRows)
                     {
-                        throw new Exception(String.Format("Expected User not found: Usr_Key = {0}", aUser.UsrKey));
+                        throw new Exception(String.Format("Expected User not found: UsrKey = {0}", aUser.UsrKey));
                     }
                     vSqlDataReader.Read();
                     DataToObject(aUser, vSqlDataReader);
@@ -158,9 +158,9 @@ namespace Grandmark
         public static string Name(SqlCommand aSqlCommand, int aUsrKey)
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("select Usr_Name + ' ' +  Usr_Surname");
-            vStringBuilder.AppendLine("from Usr_User usr");
-            vStringBuilder.AppendLine("where Usr_Key = @USRKey");
+            vStringBuilder.AppendLine("select UsrName + ' ' +  UsrSurname");
+            vStringBuilder.AppendLine("from UsrUser usr");
+            vStringBuilder.AppendLine("where UsrKey = @USRKey");
             aSqlCommand.Parameters.Clear();
             aSqlCommand.Parameters.AddWithValue("@USRKey", aUsrKey);
             aSqlCommand.CommandText = vStringBuilder.ToString();
@@ -221,11 +221,11 @@ namespace Grandmark
         private static void InsertCommon(SqlCommand aSqlCommand, User aUser)
         {
             var vStringBuilder = new StringBuilder();
-            vStringBuilder.AppendLine("insert into Usr_User");
-            vStringBuilder.AppendLine("       (Usr_ParentKey, Org_Key, QLF_Key, Usr_UserID, Usr_Password,");
-            vStringBuilder.AppendLine("        Usr_Admin, Usr_AutoAuthorize, Usr_CanAuthorize, Usr_Name, Usr_Surname, Usr_Email, Usr_Rate, Usr_Cost,");
-            vStringBuilder.AppendLine("        Usr_Identifier, Usr_Mobile, Usr_Phone, Usr_Extension, Usr_Fax, Usr_Status, Usr_StatusDate)");
-            vStringBuilder.AppendLine("output inserted.Usr_Key");
+            vStringBuilder.AppendLine("insert into UsrUser");
+            vStringBuilder.AppendLine("       (UsrParentKey, OrgKey, QLFKey, UsrUserID, UsrPassword,");
+            vStringBuilder.AppendLine("        UsrAdmin, UsrAutoAuthorize, UsrCanAuthorize, UsrName, UsrSurname, UsrEmail, UsrRate, UsrCost,");
+            vStringBuilder.AppendLine("        UsrIdentifier, UsrMobile, UsrPhone, UsrExtension, UsrFax, UsrStatus, UsrStatusDate)");
+            vStringBuilder.AppendLine("output inserted.UsrKey");
             vStringBuilder.AppendLine("values");
             vStringBuilder.AppendLine("       (@USRParentUSRKey, @OrgKey, @QLFKey, @USRUserID, @USRPassword,");
             vStringBuilder.AppendLine("        @USRAdmin, @USRAutoAuthorize, @USRCanAuthorize, @USRName, @USRSurname, @USREmail, @USRRate, @USRCost,");
@@ -282,22 +282,22 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = new StringBuilder();
-                vStringBuilder.AppendLine("update Usr_User");
-                vStringBuilder.AppendLine("set    Usr_Name = @USRName,");
-                vStringBuilder.AppendLine("       Usr_Surname = @USRSurname,");
-                vStringBuilder.AppendLine("       Usr_AutoAuthorize = @USRAutoAuthorize,");
-                vStringBuilder.AppendLine("       Usr_CanAuthorize = @USRCanAuthorize,");
-                vStringBuilder.AppendLine("       Usr_Email = @USREmail,");
-                vStringBuilder.AppendLine("       Usr_Rate = @USRRate,");
-                vStringBuilder.AppendLine("       Usr_Cost = @USRCost,");
-                vStringBuilder.AppendLine("       Usr_Identifier = @USRIdentifier,");
-                vStringBuilder.AppendLine("       Usr_Mobile = @USRMobile,");
-                vStringBuilder.AppendLine("       Usr_Phone = @USRPhone,");
-                vStringBuilder.AppendLine("       Usr_Extension = @USRExtension,");
-                vStringBuilder.AppendLine("       Usr_Fax = @USRFax,");
-                vStringBuilder.AppendLine("       QLF_Key = @QLFKey,");
-                vStringBuilder.AppendLine("       Org_Key = @OrgKey");
-                vStringBuilder.AppendLine("where  Usr_Key = @USRKey");
+                vStringBuilder.AppendLine("update UsrUser");
+                vStringBuilder.AppendLine("set    UsrName = @USRName,");
+                vStringBuilder.AppendLine("       UsrSurname = @USRSurname,");
+                vStringBuilder.AppendLine("       UsrAutoAuthorize = @USRAutoAuthorize,");
+                vStringBuilder.AppendLine("       UsrCanAuthorize = @USRCanAuthorize,");
+                vStringBuilder.AppendLine("       UsrEmail = @USREmail,");
+                vStringBuilder.AppendLine("       UsrRate = @USRRate,");
+                vStringBuilder.AppendLine("       UsrCost = @USRCost,");
+                vStringBuilder.AppendLine("       UsrIdentifier = @USRIdentifier,");
+                vStringBuilder.AppendLine("       UsrMobile = @USRMobile,");
+                vStringBuilder.AppendLine("       UsrPhone = @USRPhone,");
+                vStringBuilder.AppendLine("       UsrExtension = @USRExtension,");
+                vStringBuilder.AppendLine("       UsrFax = @USRFax,");
+                vStringBuilder.AppendLine("       QLFKey = @QLFKey,");
+                vStringBuilder.AppendLine("       OrgKey = @OrgKey");
+                vStringBuilder.AppendLine("where  UsrKey = @USRKey");
 
                 vSqlCommand.Parameters.AddWithValue("@USRKey", aUser.UsrKey);
                 vSqlCommand.Parameters.AddWithValue("@USRName", aUser.UsrName);
@@ -340,8 +340,8 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = new StringBuilder();
-                vStringBuilder.AppendLine("delete Usr_User");
-                vStringBuilder.AppendLine("and    Usr_Key = @USRKey");
+                vStringBuilder.AppendLine("delete UsrUser");
+                vStringBuilder.AppendLine("and    UsrKey = @USRKey");
                 vSqlCommand.Parameters.AddWithValue("@USRKey", aUser.UsrKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
                 vSqlCommand.Connection.Open();

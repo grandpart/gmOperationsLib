@@ -1,5 +1,4 @@
-﻿using Grandmark;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Zephry;
 
 namespace Grandmark
@@ -13,7 +12,7 @@ namespace Grandmark
         #region Fields
         private int _entkey;
         private int _tprkey;
-        private string _tprname;
+        private string _tprname = string.Empty;
         private int _tprpriority;
         private string? _tprclass;
         #endregion
@@ -21,47 +20,15 @@ namespace Grandmark
         #region Properties
         [JsonProperty("entkey")]
         public int EntKey { get => _entkey; set { _entkey = value; } }
-
         [JsonProperty("tprkey")]
         public int TprKey { get => _tprkey; set { _tprkey = value; } }
-
         [JsonProperty("tprname")]
         public string TprName { get { return _tprname; } set { _tprname = value; } }
-
         [JsonProperty("tprpriority")]
         public int TprPriority { get { return _tprpriority; } set { _tprpriority = value; } }
-
         [JsonProperty("tprclass")]
         public string? TprClass { get { return _tprclass; } set { _tprclass = value; } }
         #endregion
-
-        #region Constructor
-        public TicketPriority()
-        {
-        }
-        public TicketPriority(int aEntKey, int aTprKey)
-        {
-            _entkey = aEntKey;
-            _tprkey = aTprKey;
-        }
-        #endregion
-
-        #region Comparer
-        public class EqualityComparer : IEqualityComparer<TicketPriority>
-        {
-            public bool Equals(TicketPriority aTicketPriority1, TicketPriority aTicketPriority2)
-            {
-                return aTicketPriority1._entkey == aTicketPriority2._entkey &&
-                    aTicketPriority1._tprkey == aTicketPriority2._tprkey;
-            }
-
-            public int GetHashCode(TicketPriority aTicketPriority)
-            {
-                return Convert.ToInt32(aTicketPriority._entkey) ^ Convert.ToInt32(aTicketPriority._tprkey);
-            }
-        }
-        #endregion
-
 
         #region AssignFromSource
         public override void AssignFromSource(object aSource)

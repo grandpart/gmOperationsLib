@@ -27,7 +27,7 @@ namespace Grandmark
             }
             catch (Exception ex)
             {
-                throw TransactionException(ex);
+                throw new TransactionStatusException(TransactionResult.General, $"Server Error in {aDelegate.Method.Name}: {ex.Message}");
             }
         }
 
@@ -46,23 +46,6 @@ namespace Grandmark
             return vUserKey;
         }
 
-        #endregion
-
-        #region TransactionException
-        // Build TransactionStatusException with an Exception
-        private static TransactionStatusException TransactionException(Exception aException)
-        {
-            var vMessageStack = new StringBuilder();
-            vMessageStack.AppendFormat("{0}", aException.Message).AppendLine();
-            var vException = aException.InnerException;
-            while (vException != null)
-            {
-                vMessageStack.AppendFormat("{0}", vException.Message).AppendLine();
-                vException = vException.InnerException;
-            }
-
-            return new TransactionStatusException(TransactionResult.General, vMessageStack.ToString());
-        }
         #endregion
 
     }

@@ -27,11 +27,11 @@ namespace Grandmark
             {
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("update SysUser");
-                vStringBuilder.AppendLine("set Usr_Token = NEWID()");
-                vStringBuilder.AppendLine("output inserted.Usr_Token, inserted.Usr_Admin");
+                vStringBuilder.AppendLine("set UsrToken = NEWID()");
+                vStringBuilder.AppendLine("output inserted.UsrToken, inserted.UsrAdmin");
                 vStringBuilder.AppendLine("from SysUser usr ");
-                vStringBuilder.AppendLine("where Usr_UserID = @UsrUserID");
-                vStringBuilder.AppendLine("and   Usr_Password = @UsrToken");
+                vStringBuilder.AppendLine("where UsrUserID = @UsrUserID");
+                vStringBuilder.AppendLine("and   UsrPassword = @UsrToken");
                 vSqlCommand.Parameters.AddWithValue("@UsrUserID", aLogonToken.UserId);
                 vSqlCommand.Parameters.AddWithValue("@UsrToken", aLogonToken.Token);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
@@ -40,11 +40,11 @@ namespace Grandmark
                 {
                     if (!vSqlDataReader.HasRows)
                     {
-                        throw new Exception("User Logon Failed");
+                        throw new TransactionStatusException(TransactionResult.Access, "Logon failed.");
                     }
                     vSqlDataReader.Read();
-                    aLogonToken.Token = Convert.ToString(vSqlDataReader["Usr_Token"]);
-                    aLogonToken.Admin = Convert.ToString(vSqlDataReader["Usr_Admin"]) == "Y";
+                    aLogonToken.Token = Convert.ToString(vSqlDataReader["UsrToken"]);
+                    aLogonToken.Admin = Convert.ToString(vSqlDataReader["UsrAdmin"]) == "Y";
 
                     // close reader
                     vSqlDataReader.Close();
@@ -74,10 +74,10 @@ namespace Grandmark
             })
             {
                 var vStringBuilder = new StringBuilder();
-                vStringBuilder.AppendLine("select usr.Ent_Key, usr.Usr_Key, usr.Usr_Admin");
+                vStringBuilder.AppendLine("select usr.EntKey, usr.UsrKey, usr.UsrAdmin");
                 vStringBuilder.AppendLine("from SysUser usr");
-                vStringBuilder.AppendLine("where usr.Usr_UserID = @UsrUserID");
-                vStringBuilder.AppendLine("and   usr.Usr_Token = @UsrToken");
+                vStringBuilder.AppendLine("where usr.UsrUserID = @UsrUserID");
+                vStringBuilder.AppendLine("and   usr.UsrToken = @UsrToken");
                 vSqlCommand.Parameters.AddWithValue("@UsrUserID", aLogonToken.UserId);
                 vSqlCommand.Parameters.AddWithValue("@UsrToken", aLogonToken.Token);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
@@ -89,9 +89,9 @@ namespace Grandmark
                         throw new TransactionStatusException(TransactionResult.Hijack, "Your UserID has either expired, or it has been hijacked. Please reconnect.");
                     }
                     vSqlDataReader.Read();
-                    aUserKey.EntKey = Convert.ToInt32(vSqlDataReader["Ent_Key"]);
-                    aUserKey.UsrKey = Convert.ToInt32(vSqlDataReader["Usr_Key"]);
-                    aUserKey.UsrAdmin = Convert.ToString(vSqlDataReader["Usr_Admin"]) == "Y";
+                    aUserKey.EntKey = Convert.ToInt32(vSqlDataReader["EntKey"]);
+                    aUserKey.UsrKey = Convert.ToInt32(vSqlDataReader["UsrKey"]);
+                    aUserKey.UsrAdmin = Convert.ToString(vSqlDataReader["UsrAdmin"]) == "Y";
                     vSqlDataReader.Close();
 
                 }

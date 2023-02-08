@@ -23,10 +23,10 @@ namespace Grandmark
             }
 
             _ticketPriorityList.Clear();
-            foreach (var vCurrencySource in ((TicketPriorityCollection)aSource)._ticketPriorityList)
+            foreach (var vPrioritySource in ((TicketPriorityCollection)aSource)._ticketPriorityList)
             {
                 var vTicketPriorityTarget = new TicketPriority();
-                vTicketPriorityTarget.AssignFromSource(vCurrencySource);
+                vTicketPriorityTarget.AssignFromSource(vPrioritySource);
                 _ticketPriorityList.Add(vTicketPriorityTarget);
             }
         }

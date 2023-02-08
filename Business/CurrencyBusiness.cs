@@ -14,7 +14,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Role, "TicketPriority");
             }
 
             CurrencyData.Load(aConnection, aUserKey, aCurrency);
@@ -31,7 +31,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "CurrencyList"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "CurrencyList");
+                throw new TransactionStatusException(TransactionResult.Role, "CurrencyList");
             }
 
             CurrencyCollectionData.Load(aConnection, aUserKey, aCurrencyCollection);
@@ -48,7 +48,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Currency");
+                throw new TransactionStatusException(TransactionResult.Role, "Currency");
             }
 
             CurrencyData.Insert(aConnection, aUserKey, aCurrency);
@@ -66,7 +66,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Currency");
+                throw new TransactionStatusException(TransactionResult.Role, "Currency");
             }
 
             CurrencyData.Update(aConnection, aUserKey, aCurrency);
@@ -85,7 +85,7 @@ namespace Grandmark
 
             if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
             {
-                throw new TransactionStatusException(TransactionResult.Access, "Currency");
+                throw new TransactionStatusException(TransactionResult.Role, "Currency");
             }
 
             CurrencyData.Delete(aConnection, aUserKey, aCurrency);
