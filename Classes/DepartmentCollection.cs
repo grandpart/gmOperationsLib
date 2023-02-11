@@ -1,26 +1,15 @@
-﻿using Newtonsoft.Json;
-using Zephry;
+﻿using Zephry;
 
 namespace Grandmark
 {
-    /// <summary>
-    /// Collection for Deparment
-    /// </summary>
     public class DepartmentCollection : Zephob
     {
-        /// <summary>
-        /// Private fields for DepartmentCollection
-        /// </summary>
         #region Fields
-        private List<Department> _departmentList = new();
+        private List<Department> _list = new();
         #endregion
 
-        /// <summary>
-        /// Public properties for DepartmentCollection
-        /// </summary>
         #region  Properties
-        [JsonProperty("list")]
-        public List<Department> DepartmentList { get => _departmentList; set => _departmentList = value; }
+        public List<Department> List { get => _list; set => _list = value; }
         #endregion
 
         #region Methods
@@ -31,12 +20,12 @@ namespace Grandmark
                 throw new ArgumentException("aDepartmentCollection");
             }
 
-            _departmentList.Clear();
-            foreach (var vDepartmentSource in ((DepartmentCollection)aSource)._departmentList)
+            _list.Clear();
+            foreach (var vDepartmentSource in ((DepartmentCollection)aSource)._list)
             {
                 var vDepartmentTarget = new Department();
                 vDepartmentTarget.AssignFromSource(vDepartmentSource);
-                _departmentList.Add(vDepartmentTarget);
+                _list.Add(vDepartmentTarget);
             }
         }
         #endregion

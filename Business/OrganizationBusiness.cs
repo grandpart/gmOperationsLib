@@ -70,9 +70,9 @@ namespace Grandmark
 
         #region Delete
 
-        public static void Delete(Connection aConnection, UserKey aUserKey, OrganizationKey aOrganizationKey)
+        public static void Delete(Connection aConnection, UserKey aUserKey, Organization aOrganization)
         {
-            if (aOrganizationKey == null)
+            if (aOrganization == null)
             {
                 throw new ArgumentNullException("aOrganization");
             }
@@ -82,7 +82,7 @@ namespace Grandmark
                 throw new TransactionStatusException(TransactionResult.Role, "Organization");
             }
 
-            OrganizationData.Delete(aConnection, aUserKey, aOrganizationKey);
+            OrganizationData.Delete(aConnection, aUserKey, aOrganization);
         }
 
         #endregion

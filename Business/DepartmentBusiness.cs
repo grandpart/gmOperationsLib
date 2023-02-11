@@ -34,7 +34,7 @@ namespace Grandmark
                 throw new TransactionStatusException(TransactionResult.Access, "DepartmentCollection");
             }
 
-            DepartmentCollectionData.Load(aConnection, aUserKey, aDepartmentCollection);
+            DepartmentData.Load(aConnection, aUserKey, aDepartmentCollection);
         }
         #endregion
 

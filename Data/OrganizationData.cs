@@ -167,8 +167,7 @@ namespace Grandmark
             {
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("update Organization");
-                vStringBuilder.AppendLine("set    OrgKeyParent = @OrgKeyParent,");
-                vStringBuilder.AppendLine("       OrgName = @OrgName");
+                vStringBuilder.AppendLine("set    OrgName = @OrgName");
                 vStringBuilder.AppendLine("where  EntKey = @EntKey");
                 vStringBuilder.AppendLine("and    OrgKey = @OrgKey");
                 ObjectToData(vSqlCommand, aUserKey, aOrganization);
@@ -182,11 +181,11 @@ namespace Grandmark
         #endregion
 
         #region Delete
-        public static void Delete(Connection aConnection, UserKey aUserKey, OrganizationKey aOrganizationKey)
+        public static void Delete(Connection aConnection, UserKey aUserKey, Organization aOrganization)
         {
-            if (aOrganizationKey == null)
+            if (aOrganization == null)
             {
-                throw new ArgumentNullException(nameof(aOrganizationKey));
+                throw new ArgumentNullException(nameof(aOrganization));
             }
             try
             {
@@ -201,7 +200,7 @@ namespace Grandmark
                     vStringBuilder.AppendLine("where  EntKey = @EntKey");
                     vStringBuilder.AppendLine("and    OrgKey = @OrgKey");
                     vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
-                    vSqlCommand.Parameters.AddWithValue("@OrgKey", aOrganizationKey.OrgKey);
+                    vSqlCommand.Parameters.AddWithValue("@OrgKey", aOrganization.OrgKey);
                     vSqlCommand.CommandText = vStringBuilder.ToString();
                     vSqlCommand.Connection.Open();
                     vSqlCommand.ExecuteNonQuery();

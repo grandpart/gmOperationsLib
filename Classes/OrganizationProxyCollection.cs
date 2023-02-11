@@ -7,14 +7,12 @@ namespace Grandmark
     {
         #region Fields
         private bool _flat = false;
-        private List<OrganizationProxy> _organizationList = new();
+        private List<OrganizationProxy> _list = new();
         #endregion
 
         #region  Properties
-        [JsonProperty("flat")]
         public bool Flat { get => _flat; set => _flat = value; }
-        [JsonProperty("list")]
-        public List<OrganizationProxy> OrganizationProxyList { get => _organizationList; set => _organizationList = value; }
+        public List<OrganizationProxy> List { get => _list; set => _list = value; }
         #endregion
 
         #region Methods
@@ -26,12 +24,12 @@ namespace Grandmark
             }
 
             _flat = ((OrganizationProxyCollection) aSource)._flat;
-            _organizationList.Clear();
-            foreach (var vOrganizationProxySource in ((OrganizationProxyCollection) aSource)._organizationList)
+            _list.Clear();
+            foreach (var vOrganizationProxySource in ((OrganizationProxyCollection) aSource)._list)
             {
                 var vOrganizationProxyTarget = new OrganizationProxy();
                 vOrganizationProxyTarget.AssignFromSource(vOrganizationProxySource);
-                _organizationList.Add(vOrganizationProxyTarget);
+                _list.Add(vOrganizationProxyTarget);
             }
         }
         #endregion

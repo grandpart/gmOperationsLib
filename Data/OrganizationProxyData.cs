@@ -97,7 +97,7 @@ namespace Grandmark
                 {
                     var vOrganizationProxy = new OrganizationProxy();
                     DataToObject(vOrganizationProxy, vSqlDataReader);
-                    aOrganizationProxyCollection.OrganizationProxyList.Add(vOrganizationProxy);
+                    aOrganizationProxyCollection.List.Add(vOrganizationProxy);
                     vKeyMap.Add(vOrganizationProxy.OrgKey, vOrganizationProxy);
                 }
                 vSqlDataReader.Close();
@@ -109,10 +109,10 @@ namespace Grandmark
             {
                 if (vOrganizationProxy.OrgKeyParent != null)
                 {
-                    vKeyMap[vOrganizationProxy.OrgKeyParent].OrganizationProxyList.Add(vOrganizationProxy);
+                    vKeyMap[vOrganizationProxy.OrgKeyParent].List.Add(vOrganizationProxy);
                 }
             }
-            aOrganizationProxyCollection.OrganizationProxyList.RemoveAll(item => item.OrgKeyParent != null);
+            aOrganizationProxyCollection.List.RemoveAll(item => item.OrgKeyParent != null);
         }
         #endregion
     }

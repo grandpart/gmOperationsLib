@@ -1,13 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Zephry;
 
 namespace Grandmark
 {
     /// <summary>
     /// The hierarchical class that represents Organizations as parent/children 
     /// </summary>
-    public class OrganizationProxy : OrganizationKey
+    public class OrganizationProxy : Zephob
     {
         #region Fields
+        private int _entKey;
+        private int _orgKey;
         private int? _entKeyParent;
         private int? _orgKeyParent;
         private string _orgName = string.Empty;
@@ -15,14 +17,12 @@ namespace Grandmark
         #endregion
 
         #region Properties
-        [JsonProperty("entparent")]
+        public int EntKey { get => _entKey; set { _entKey = value; } }
+        public int OrgKey { get => _orgKey; set { _orgKey = value; } }
         public int? EntKeyParent { get => _entKeyParent; set => _entKeyParent = value; }
-        [JsonProperty("orgparent")]
         public int? OrgKeyParent { get => _orgKeyParent; set => _orgKeyParent = value; }
-        [JsonProperty("orgname")]
         public string OrgName { get => _orgName; set => _orgName = value; }
-        [JsonProperty("list")]
-        public List<OrganizationProxy> OrganizationProxyList { get => _organizationProxyList; set => _organizationProxyList = value; }
+        public List<OrganizationProxy> List { get => _organizationProxyList; set => _organizationProxyList = value; }
         #endregion
 
         #region AssignFromSource
@@ -33,12 +33,13 @@ namespace Grandmark
         /// <param name="aSource">A source objcct.</param>
         public override void AssignFromSource(object aSource)
         {
-            if (!(aSource is OrganizationProxy))
+            if (aSource is not OrganizationProxy)
             {
                 throw new ArgumentException("aOrganizationProxy");
             }
 
-            base.AssignFromSource(aSource);
+            _entKey = ((OrganizationProxy)aSource)._entKey;
+            _orgKey = ((OrganizationProxy)aSource)._orgKey;
             _entKeyParent = ((OrganizationProxy)aSource)._entKeyParent;
             _orgKeyParent = ((OrganizationProxy)aSource)._orgKeyParent;
             _orgName = ((OrganizationProxy)aSource)._orgName;
