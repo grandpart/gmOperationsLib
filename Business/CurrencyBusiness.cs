@@ -22,7 +22,7 @@ namespace Grandmark
         #endregion
 
         #region Load List
-        public static void LoadList(Connection aConnection, UserKey aUserKey, CurrencyCollection aCurrencyCollection)
+        public static void Load(Connection aConnection, UserKey aUserKey, CurrencyCollection aCurrencyCollection)
         {
             if (aCurrencyCollection == null)
             {
@@ -34,7 +34,7 @@ namespace Grandmark
                 throw new TransactionStatusException(TransactionResult.Role, "CurrencyList");
             }
 
-            CurrencyCollectionData.Load(aConnection, aUserKey, aCurrencyCollection);
+            CurrencyData.Load(aConnection, aUserKey, aCurrencyCollection);
         }
         #endregion
 

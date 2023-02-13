@@ -8,13 +8,13 @@ namespace Grandmark
     public class CurrencyCollection : Zephob
     {
         #region Fields
-        private List<Currency> _currencyList = new();
+        private List<Currency> _list = new();
         #endregion
 
         #region  Properties
 
         [JsonProperty("list")]
-        public List<Currency> CurrencyList { get => _currencyList; set => _currencyList = value; }
+        public List<Currency> List { get => _list; set => _list = value; }
         #endregion
 
         #region Methods
@@ -25,12 +25,12 @@ namespace Grandmark
                 throw new ArgumentException("aCurrencyCollection");
             }
 
-            _currencyList.Clear();
-            foreach (var vCurrencySource in ((CurrencyCollection)aSource)._currencyList)
+            _list.Clear();
+            foreach (var vCurrencySource in ((CurrencyCollection)aSource)._list)
             {
                 var vCurrencyTarget = new Currency();
                 vCurrencyTarget.AssignFromSource(vCurrencySource);
-                _currencyList.Add(vCurrencyTarget);
+                _list.Add(vCurrencyTarget);
             }
         }
         #endregion

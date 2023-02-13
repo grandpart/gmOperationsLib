@@ -101,7 +101,7 @@ namespace Grandmark
         /// <param name="aUserKey"></param>
         /// <param name="aTicketPriority"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void LoadList(Connection aConnection, UserKey aUserKey, List<Currency> aCurrencyCollection)
+        public static void Load(Connection aConnection, UserKey aUserKey, CurrencyCollection aCurrencyCollection)
         {
             //if (aTicketPriority == null)
             //{
@@ -129,7 +129,7 @@ namespace Grandmark
                     {
                         var vCurrency = new Currency();
                         DataToObject(vCurrency, vSqlDataReader);
-                        aCurrencyCollection.Add(vCurrency);
+                        aCurrencyCollection.List.Add(vCurrency);
 
                     }
 
