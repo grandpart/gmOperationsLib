@@ -11,7 +11,7 @@ namespace Grandmark
         private static StringBuilder BuildSql()
         {
             var vStrignBuilder = new StringBuilder();
-            vStrignBuilder.AppendLine("SELECT w.Ent_Key, w.Whs_Key, w.Whs_Name, w.Whs_Code, w.Whs_IsTradingWarehouse ");
+            vStrignBuilder.AppendLine("SELECT w.EntKey, w.WhsKey, w.WhsName, w.WhsCode, w.WhsIsTradingWarehouse ");
             vStrignBuilder.AppendLine("FROM Warehouse w");
             return vStrignBuilder;
         }
@@ -25,11 +25,11 @@ namespace Grandmark
         /// <param name="aSqlDataReader"></param>
         private static void DataToObject(Warehouse aWarehouse, SqlDataReader aSqlDataReader)
         {
-            aWarehouse.EntKey = Convert.ToInt32(aSqlDataReader["Ent_Key"]);
-            aWarehouse.WhsKey = Convert.ToInt32(aSqlDataReader["Whs_key"]);
-            aWarehouse.WhsName = Convert.ToString(aSqlDataReader["Whs_Name"]);
-            aWarehouse.WhsCode = Convert.ToString(aSqlDataReader["Whs_Code"]);
-            aWarehouse.WhsIsTradingWarehouse = Convert.ToBoolean(aSqlDataReader["Whs_IsTradingWarehouse"]);
+            aWarehouse.EntKey = Convert.ToInt32(aSqlDataReader["EntKey"]);
+            aWarehouse.WhsKey = Convert.ToInt32(aSqlDataReader["Whskey"]);
+            aWarehouse.WhsName = Convert.ToString(aSqlDataReader["WhsName"]);
+            aWarehouse.WhsCode = Convert.ToString(aSqlDataReader["WhsCode"]);
+            aWarehouse.WhsIsTradingWarehouse = Convert.ToBoolean(aSqlDataReader["WhsIsTradingWarehouse"]);
         }
         #endregion
 
@@ -71,8 +71,8 @@ namespace Grandmark
             })
             {
                 var vStrignBuilder = BuildSql();
-                vStrignBuilder.AppendLine("WHERE w.Ent_Key = @EntKey");
-                vStrignBuilder.AppendLine("AND   w.Whs_Key = @WhsKey");
+                vStrignBuilder.AppendLine("WHERE w.EntKey = @EntKey");
+                vStrignBuilder.AppendLine("AND   w.WhsKey = @WhsKey");
                 vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
                 vSqlCommand.Parameters.AddWithValue("@WhsKey", aWarehouse.WhsKey);
                 vSqlCommand.CommandText = vStrignBuilder.ToString();
@@ -133,7 +133,7 @@ namespace Grandmark
         {
             var vStringBuilder = new StringBuilder();
             vStringBuilder.AppendLine("INSERT INTO Warehouse");
-            vStringBuilder.AppendLine("       (Ent_Key, Whs_Name, Whs_Code, Whs_IsTradingWarehouse)");
+            vStringBuilder.AppendLine("       (EntKey, WhsName, WhsCode, WhsIsTradingWarehouse)");
             vStringBuilder.AppendLine("output inserted.Whs_Key");
             vStringBuilder.AppendLine("values");
             vStringBuilder.AppendLine("       (@EntKey, @WhsName, @WhsCode, @WhsIsTradingWarehouse)");
@@ -158,11 +158,11 @@ namespace Grandmark
             {
                 var vStringBuilder = new StringBuilder();
                 vStringBuilder.AppendLine("UPDATE Warehouse");
-                vStringBuilder.AppendLine("set    Whs_Name = @WhsName,");
-                vStringBuilder.AppendLine("       Whs_Code = @WhsCode,");
-                vStringBuilder.AppendLine("       Whs_IsTradingWarehouse = @WhsIsTradingWarehouse");
-                vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                vStringBuilder.AppendLine("and    Whs_Key = @WhsKey");
+                vStringBuilder.AppendLine("set    WhsName = @WhsName,");
+                vStringBuilder.AppendLine("       WhsCode = @WhsCode,");
+                vStringBuilder.AppendLine("       WhsIsTradingWarehouse = @WhsIsTradingWarehouse");
+                vStringBuilder.AppendLine("where  EntKey = @EntKey");
+                vStringBuilder.AppendLine("and    WhsKey = @WhsKey");
                 ObjectToData(vSqlCommand, aUserKey, aWarehouse);
                 vSqlCommand.Parameters.AddWithValue("@WhsKey", aWarehouse.WhsKey);
                 vSqlCommand.CommandText = vStringBuilder.ToString();
@@ -190,8 +190,8 @@ namespace Grandmark
                 {
                     var vStringBuilder = new StringBuilder();
                     vStringBuilder.AppendLine("delete Warehouse");
-                    vStringBuilder.AppendLine("where  Ent_Key = @EntKey");
-                    vStringBuilder.AppendLine("and    Whs_Key = @WhsKey");
+                    vStringBuilder.AppendLine("where  EntKey = @EntKey");
+                    vStringBuilder.AppendLine("and    WhsKey = @WhsKey");
                     vSqlCommand.Parameters.AddWithValue("@EntKey", aUserKey.EntKey);
                     vSqlCommand.Parameters.AddWithValue("@WhsKey", aWarehouseKey.WhsKey);
                     vSqlCommand.CommandText = vStringBuilder.ToString();
