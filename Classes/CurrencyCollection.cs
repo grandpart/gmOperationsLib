@@ -13,7 +13,6 @@ namespace Grandmark
 
         #region  Properties
 
-        [JsonProperty("list")]
         public List<Currency> List { get => _list; set => _list = value; }
         #endregion
 

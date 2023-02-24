@@ -9,12 +9,12 @@ namespace Grandmark
         {
             if (aCurrency == null)
             {
-                throw new ArgumentNullException("aTicketPriority");
+                throw new ArgumentNullException("aCurrency");
             }
 
-            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "TicketPriority"))
+            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Creditor"))
             {
-                throw new TransactionStatusException(TransactionResult.Role, "TicketPriority");
+                throw new TransactionStatusException(TransactionResult.Role, "Creditor");
             }
 
             CurrencyData.Load(aConnection, aUserKey, aCurrency);
@@ -29,9 +29,9 @@ namespace Grandmark
                 throw new ArgumentNullException("aCurrencyList");
             }
 
-            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "CurrencyList"))
+            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Creditor"))
             {
-                throw new TransactionStatusException(TransactionResult.Role, "CurrencyList");
+                throw new TransactionStatusException(TransactionResult.Role, "Creditor");
             }
 
             CurrencyData.Load(aConnection, aUserKey, aCurrencyCollection);
@@ -46,9 +46,9 @@ namespace Grandmark
                 throw new ArgumentNullException("aCurrency");
             }
 
-            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
+            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Creditor"))
             {
-                throw new TransactionStatusException(TransactionResult.Role, "Currency");
+                throw new TransactionStatusException(TransactionResult.Role, "Creditor");
             }
 
             CurrencyData.Insert(aConnection, aUserKey, aCurrency);
@@ -64,9 +64,9 @@ namespace Grandmark
                 throw new ArgumentNullException("aCurrency");
             }
 
-            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
+            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Creditor"))
             {
-                throw new TransactionStatusException(TransactionResult.Role, "Currency");
+                throw new TransactionStatusException(TransactionResult.Role, "Creditor");
             }
 
             CurrencyData.Update(aConnection, aUserKey, aCurrency);
@@ -83,9 +83,9 @@ namespace Grandmark
                 throw new ArgumentNullException("aCurrency");
             }
 
-            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Currency"))
+            if (!SysRoleAccessData.HasRoleAccess(aConnection, aUserKey, "Creditor"))
             {
-                throw new TransactionStatusException(TransactionResult.Role, "Currency");
+                throw new TransactionStatusException(TransactionResult.Role, "Creditor");
             }
 
             CurrencyData.Delete(aConnection, aUserKey, aCurrency);

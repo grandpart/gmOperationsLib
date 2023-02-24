@@ -1,5 +1,6 @@
 ﻿using Grandmark;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using Zephry;
 
 namespace Grandmark
@@ -17,18 +18,17 @@ namespace Grandmark
 
         #region Properties
 
-        [JsonProperty("entkey")]
+        
         public int EntKey { get { return _entkey; } set { _entkey = value; } }
-        [JsonProperty("curkey")]
         public int CurKey { get { return _curkey; } set { _curkey = value; } }
 
-        [JsonProperty("curcode")]
+        [Required(ErrorMessage = "Currency code is required")]
         public string CurCode { get { return _curcode; } set { _curcode = value; } }
 
-        [JsonProperty("curprefix")]
+        [Required(ErrorMessage = "Currency prefix is required")]
         public string CurPrefix { get { return _curprefix; } set { _curprefix = value; } }
 
-        [JsonProperty("curname")]
+        [Required(ErrorMessage = "Currency name is required")]
         public string CurName { get { return _curname; } set { _curname = value; } }
 
         #endregion
@@ -41,7 +41,7 @@ namespace Grandmark
                 throw new ArgumentException("Invalid Source Argument to Currency Assign");
             }
             _entkey = ((Currency)aSource)._entkey;
-            _curkey= ((Currency)aSource)._curkey;
+            _curkey = ((Currency)aSource)._curkey;
             _curcode = ((Currency)aSource)._curcode;
             _curprefix = ((Currency)aSource)._curprefix;
             _curname = ((Currency)aSource)._curname;
